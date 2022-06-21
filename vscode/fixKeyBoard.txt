@@ -1,0 +1,5 @@
+search json in settings,
+enter settings.json of Launch chart
+add 
+    "keyboard.dispatch": "keyCode",
+done!

@@ -1,0 +1,37 @@
+#============ install ================
+# install dependencies
+apt install build-essential linux-headers-$(uname -r)
+
+# mount cdrom
+mkdir /tmp/cdrom
+mount /dev/sr0 /tmp/cdrom
+#GUI cd /media/cdrom0
+cd /tmp/cdrom
+
+# build...
+sh VBoxLinuxAdditions.run
+
+# remove dependencies
+apt --purge autoremove build-essential linux-headers-$(uname -r)
+
+#============== mount automatically ================
+# when automount enabled, mount under /mnt start with sf_ , check with:
+mount | grep vbox
+
+# if no permission, try: 'sudo gpasswd -a newUserToAdd vboxsf'
+sudo gpasswd -a root vboxsf
+# or:
+sudo adduser newUserToAdd vboxsf
+
+#============== mount manually ================
+# or mount at /mnt/shared
+mkdir /tmp/shared
+# seems must be a folder
+mount -t vboxsf sharedFolderName /mnt/shared
+
+# mount automaticaly
+vi /etc/fstab
+share /tmp/shared vboxsf rw,gid=100,uid=1000,auto 0 0
+
+# unmount
+umount -f /tmp/shared

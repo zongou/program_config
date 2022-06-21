@@ -1,0 +1,35 @@
+
+
+
+
+                            -----------------
+                            a o
+                            o O 0 Q C G
+                            i I l | 1
+                            g 9 q
+                            B 8
+                            -----------------
+                            <>&"^$\/()@?+*{}[],.
+            the quick brown fox jumps over the lazy dog
+            THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+
+            abcdefghijklmnopqrstuvwxyz
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+            （钴）
+            类似爱情 
+            迈出创造的第一步
+            距离梦想更进一步
+            邁出創造的第一步
+            距離夢想更進一步
+            "hello world"
+
+            <-<  <<-  <-- <- <-> -> --> ->> >->
+            <=<  <<=  <==       
+
+
+public class Demo{
+    public static void main(String[] args){
+        System.out.println("Hello world!");
+    }
+}

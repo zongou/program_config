@@ -1,0 +1,16 @@
+create disk image
+	qemu-img.exe create -f qcow2 hda.qcow 8G
+start system with disk, iso
+	C:\Program Files\qemu> qemu-system-x86_64w.exe -m 2048M -hda d:\debian.qcow2 -cdrom d:\NetbootCD.iso
+
+start script for windows:
+	@echo off 　　
+	　　if "%1" == "h" goto begin 
+	　　    mshta vbscript:createobject("wscript.shell").run("%~nx0 h",0)(window.close)&&exit 
+	　　:begin 
+	start .\qemu\qemu-system-x86_64w.exe -L .\qemu\ -m 2048M -hda .\alpine-virt.qcow
+
+use portable qemu:
+	place start*.bat and *.qcow to my_qemu/
+
+	bios.bin and bios-256k.bin are at './qemu/', use ' -L ./qemu/' to start, on older version, this is not needed.

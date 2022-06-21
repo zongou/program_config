@@ -1,0 +1,2 @@
+download:
+    https://jquery.com/download/

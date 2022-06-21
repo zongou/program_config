@@ -1,0 +1,45 @@
+to enable: config change appendonly no to yes
+AOF dir: config: dir		# same as rdb dir
+
+# NOTE:
+	enable AOF will disable RDB, so the first time aof is empty, and rdb data will get lost
+	
+use example:
+	set k1 v1 
+	set k2 v2
+	set k3 v3
+cli2: cp appendonly.aof appendonly.aof.bak		# backup
+	shutdown
+cp appendonly.aof.bak appendonly.aof			# restore
+	service redis-server restart
+	redis-cli
+	keys *
+	
+	
+# fix appendonly.aof
+	usage:
+		append 'hello' to the end of appendonly.aof							# break
+		then restart redis-server and connect prompt: Connection refused	# connection will fail
+		run redis-check-aof --fix appendonly.aof							# fix
+		redis-cli
+		keys *																# reconnect, succeed
+
+
+relative config:
+	appendfsync always
+		
+# rewrite (compression)
+aof save steps, as
+	set a a1
+	set b b1
+	
+after rewirte, it becomes
+	set a a1 b b1
+	this saves space
+	
+config: auto-aof-rewrite-percentage 100
+config: auto-aof-rewrite-min-size=64mb
+
+rewrite dose not work all along, only happens when 
+current AOF File >= min-size + min-size*100%, by default is 128mb
+

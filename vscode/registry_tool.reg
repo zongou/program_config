@@ -1,0 +1,19 @@
+Windows Registry Editor Version 5.00
+
+;Open File
+
+[HKEY_CLASSES_ROOT\*\shell\VSCode]
+@="Open with Code"
+"Icon"="D:\\VSCode\\VSCode-x64\\Code.exe"
+
+[HKEY_CLASSES_ROOT\*\shell\VSCode\command]
+@="\"D:\\VSCode\\VSCode-x64\\Start.bat\" \"%1\""
+
+;Open Folder
+
+[HKEY_CLASSES_ROOT\Directory\shell\VSCode]
+@="Open with Code"
+"Icon"="D:\\VSCode\\VSCode-x64\\Code.exe"
+
+[HKEY_CLASSES_ROOT\Directory\shell\VSCode\command]
+@="\"D:\\VSCode\\VSCode-x64\\Start.bat\" \"%V\""

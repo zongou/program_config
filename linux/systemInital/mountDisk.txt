@@ -1,0 +1,8 @@
+use fdisk -l | '/dev/' to check disks
+use mount a b to mount disks
+use apt install ntfs-3g to fix unkowing ntfs type
+use umount a to unmount, when failed
+try fuser -mv -k a to kill processes first, if fuser is not installed, try apt install psmisc
+fuser to check  current process: fuser -mv a
+to kill process: fuser -kv a
+

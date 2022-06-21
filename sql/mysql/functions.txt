@@ -1,0 +1,56 @@
+method is simillar to procedure, but must and can only have one return value.
+procedure suits for batch insert update date.
+method suits for return a value after operation.
+
+----------------------------------------
+syntax to create a method:
+    delimiter $$  # delimiter is not included, but usually used with
+    create function functionName(parameterList) returns returnType
+    begin               # begin-end can be omitted when there is only one script
+        scripts...;
+        return value;   # return clause can be placed anywhere, at the end is recommanded
+    end $$
+----------------------------------------
+parameterList:
+    include 2 parts:
+        parameterName
+        parameterType
+----------------------------------------
+syntax to call a method:
+    select methodName(parameterList);       # is like built-in method
+----------------------------------------
+check method:
+    show create function functionName;
+----------------------------------------
+list method:
+    slect name, type
+    from mysql.proc;
+----------------------------------------
+syntax to drop method:
+    drop function functionName;
+----------------------------------------
+                example
+# check how many employees are there in company:
+    delimiter $$
+    create or replace function empNum() returns int
+    begin
+        declare count int default 0;
+        select count(*) into count
+        from myemployees.employees;
+        return count;
+    end $$
+    delimiter ;
+    select empNum();
+# return salary according to employee's name:
+    delimiter $$
+    create or replace function salary(name varchar(20)) returns int
+    begin
+        set @s=0;           # for study, this time we use user variable
+        select salary into @s
+        from myemployees.employees
+        where last_name = name
+        limit 1;
+        return @s;
+    end $$
+    delimiter ;
+    select salary('K_ing');

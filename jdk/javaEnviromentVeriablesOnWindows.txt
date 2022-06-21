@@ -1,0 +1,9 @@
+JAVA_HOME
+...jdk_version..
+
+PATH
+%JAVA_HOME%\bin";%PATH%;
+
+CLASSPATH
+.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar;
+

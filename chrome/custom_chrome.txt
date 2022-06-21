@@ -1,0 +1,7 @@
+Extensions
+Local Extension Settings
+Preferences
+Secure Preferences
+
+# start in english
+./chrome --lang=en_US

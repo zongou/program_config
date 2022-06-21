@@ -1,0 +1,17 @@
+//make a interface
+interface Myinterface{
+	void onClick(int posision,...);
+}
+//define listener in adapter
+private Myinterface listener;
+public void setListener(MyInterface listener) {
+        this.listener = listener;
+}
+//bind listener with listener in viewHolder
+**view.addListener{
+	if(listener!=null){
+		listener.onClick(getLayoutPosition(),...);
+	}
+}
+//add Listener to adapter
+adapter.setListener(new MyAdapter.MyInterface{});

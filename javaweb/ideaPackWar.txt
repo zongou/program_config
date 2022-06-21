@@ -1,0 +1,9 @@
+# SSM-CRUD
+### pack to war and run
+    Project Structure ->  
+    Artifacts ->  
+    add ->  
+    Web Application: Archive -> for xxx exploded  
+
+    Build -> Build Artifacts...
+    place XXX.war at /webapps

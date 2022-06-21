@@ -1,0 +1,84 @@
+master host to write, slave host to read
+
+read operation more frequent then write, more slave than master
+
+usage, 1 master host 2 slave hosts:
+
+	# place to hold files
+	mkdir /myredis									
+	cp /etc/redis/redis.conf /myredis
+	
+	# details
+	host		master				slave1				slave2				
+	port		6379				6480				6481
+	config		redis6379.conf		redis6480.conf		redis6481.conf
+	
+	# configurate configuration, use 'include'
+		close AOF:	'appendonly' -> no
+		
+		# config of master, tamplate
+		vi redis6379.conf							
+			include /myredis/redis.conf
+			pidfile /var/run/redis/redis_6379.pid
+			port 6379
+			dbfilename dump6379.rdb
+		# config slaves ...
+	
+	# start hosts
+		# service redis-server stop		# stop default
+		redis-server redisxxxx.conf
+		...
+		
+		or 
+		for config in $(ls |grep 6); do redis-server $config & done
+			
+	# check slave or master
+		info replication
+		
+	# to make slave host
+		# redis: slaveof ip port
+		
+		# slave host1
+		slaveof localhost 6379
+		# slave host2
+		slaveof localhost 6379
+		
+	# test
+		master:	set k1 v1
+		slave1: keys *
+		
+		slave1: set k1 v1, 				# prompt: can't write against a read only replica
+		
+	# exceptions:
+		slave down -> back online
+			slave: shutdown
+			slave: redis-server xx.conf
+			when slave host is down and get online again, it becomes master, 
+			set slave to master again will replicate all data from master again
+		master down:
+			master: shutdown
+			can read data from slave
+			slave still remember its master, and in info replication, show master_link_status:down
+		master back online:
+			master: redis-server xx.conf
+			mater: info replication
+# change back from slave to master
+	slaveof no one
+# sentinel
+	vi /myredis/sentinel.conf
+		sentinel monitor mymaster 127.0.0.1 6379 1
+	# mymaster is the name of target server
+	# 1 means at least 1 sentinel agrees 
+
+	# start redis-sentinel
+	redis-sentinel sentinel.conf
+	
+	# when master is down, sentinel will detect it and role a new master, and the previous down master will marked slave, when it gets online, it is slave host to new master
+	
+	# policy to role new master
+		1, max priority, according to the slave-priority(or replicate-priority) in config file, porioriy min(100-0)max
+		2, best data match, synchronized data matches best to the down master
+		3, min runid, redis instance will generate a random runid after generated of 40 chars
+	
+# disadvantage: laterncy to copy
+	all the write operation is on the master, and later synchrinized to slave, there is laterncy, when system is busy, laterncy will become worse, adding new slave will make it worse too

@@ -1,0 +1,37 @@
+//creat fragments
+//create viewPager components in MainActivity layout
+	//manage fragments
+		ViewPage viewpage=findViewById(...);
+		List<Fragment> pages=new ArrayList<>();
+		pages.add(new Fragment...);
+	//set adapter
+		viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @NonNull
+            @Override
+            public Fragment getItem(int position) {
+                return pages.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return pages.size();
+            }
+        });
+    //or use class
+    	class ViewPageAdapter extends FragmentPagerAdapter{
+	        ArrayList<Fragment> fragments;
+	        public ViewPageAdapter(FragmentManager fm,ArrayList<Fragment> fragments){
+	            super(fm);
+	            this.fragments=fragments;
+	        }
+	        @NonNull
+	        @Override
+	        public Fragment getItem(int position) {
+	            return fragments.get(position);
+	        }
+
+	        @Override
+	        public int getCount() {
+	            return fragments.size();
+	        }
+    	}

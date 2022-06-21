@@ -1,0 +1,2 @@
+# check log in realtime
+journalctl -u ServiceName.service -f

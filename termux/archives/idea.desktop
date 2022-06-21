@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=sh /sdcard/idea/bin/idea.sh %u
+Icon=/sdcard/idea/bin/idea.svg
+StartupNotify=true
+Terminal=false
+Categories=Utility;X-XFCE;
+X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
+X-AppStream-Ignore=True
+Name=IntelliJ IDEA

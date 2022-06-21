@@ -1,0 +1,18 @@
+# connect
+adb devices -l
+
+# enter shell
+adb shell
+
+# list packages
+adb shell pm list packages
+adb shell pm list packages >App.txt
+
+# disble packges
+adb shell pm disable-user [package]
+
+# list disabled packages
+adb pm list packages -d
+
+# enable packages
+adb shell pm enable [package]

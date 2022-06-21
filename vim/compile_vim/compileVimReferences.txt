@@ -1,0 +1,61 @@
+# Install dependencies
+	# vimplus dependencies
+		sudo apt-get install -y libncurses5-dev libncurses5 \
+			libgtk2.0-dev libatk1.0-dev libcairo2-dev libx11-dev \
+			libxpm-dev libxt-dev python-dev python3-dev ruby-dev lua5.1 lua5.1-dev
+		
+	# debain cli dependencies
+		apt install -y git make libncurses5-dev libncurses5 checkinstall
+# Fetch source
+	cd ~/
+	git clone https://gitee.com/zongou/vim
+
+# Compile source code
+	#	vimplus config
+		./configure --with-features=huge \
+				--enable-multibyte \
+				--enable-rubyinterp \
+				--enable-pythoninterp \
+				--enable-perlinterp \
+				--enable-luainterp \
+				--enable-gui=gtk2 \
+				--enable-cscope \
+				--prefix=/usr
+			
+	# debain cli config
+		./configure --with-features=huge \
+				--enable-multibyte \
+				--enable-gui=false \
+				--enable-cscope 
+		
+	make -j8		# compile faster
+
+# Pack to .deb
+	checkinstall -y			# answer with default value
+
+
+# Remove default vim
+	apt remove -y vim vim-runtime gvim
+	apt remove -y vim-tiny vim-common vim-gui-common vim-nox
+	rm -rf /usr/share/vim
+
+# Other option
+	# --prefix=/usr/local does not overwrite some pack in system
+	# --prefix=/usr overwrites some pack in system
+	# commend --prefix will make not overwrite
+
+# Install 
+    make install to install src
+    dpkg -i --force-overwrite *.deb to install deb package
+
+# Make vim default editor
+	sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
+	sudo update-alternatives --set editor /usr/bin/vim
+	sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
+	sudo update-alternatives --set vi /usr/bin/vim
+# reference
+	https://www.linuxprobe.com/easymake-vim8.html
+	https://blog.csdn.net/ecnu_lzj/article/details/104475139
+	https://www.jianshu.com/p/3e0c242310d3
+	https://github.com/chxuan/vimplus/blob/master/install.sh
+	https://blog.csdn.net/anljf/article/details/7254601

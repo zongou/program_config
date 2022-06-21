@@ -1,0 +1,26 @@
+HomeGuides and Tips
+Flash TWRP Custom Recovery on install ADB drivers on Linux OS
+HOW TO FLASH RECOVERY.IMG AND INSTALL ADB ON LINUX OS
+FREDERICK JEROMENOVEMBER 25, 2017
+GUIDES AND TIPS1 COMMENT
+This guide was tested on Redmi Note 4 MTK (Nikel) device, but most probably will work fine on other smartphones. We’ve used Linux Mint, but there’s any difference with other Linux distro. So, let’s continue and find out about how you can flash TWRP Recovery “recovery.img” file as well as install required ADB (Android Debug Bridge) drivers on Linux OS.
+
+Flash TWRP Custom Recovery on install ADB drivers on Linux OS
+First of all, we’ll need to install ADB drivers on our Linux system. Follow the steps below:
+
+Open Terminal (Just in case, hotkey combination is Ctrl + Alt + T).
+Enter the following commands one by one:
+sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install android-tools-adb android-tools-fastboot
+New check if ADB driver was installed correctly. Type the following commands to reboot ADB and send USB debugging request on your phone (don’t forget to enable USB-debugging on your phone first):
+sudo adb kill-server
+sudo adb start-server
+Connect your phone and check the connection by typing in Terminal:
+adb devices
+If you see your device unique ID number, that means everything was done correctly. Now type the two following commands one-by-one (where twrp.img is the name of TWRP Custom Recovery image):
+adb reboot bootloader
+sudo fastboot devices
+sudo fastboot flash recovery trwp.img
+Wait until flashing process is completed, disconnect from PC and turn off your phone.
+Now you can boot into TWRP Custom Recovery or continue using your phone.

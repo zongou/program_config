@@ -1,0 +1,20 @@
+# set proxy
+go env -w GOPROXY=https://goproxy.cn,direct
+go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
+go env -w GOPROXY=https://proxy.golang.com.cn,direct 
+
+# cancel proxy
+go env -u GOPROXY 
+
+# check out proxy
+go env GOPROXY $ go env //以JSON格式输出 $ go env -json 
+
+# Bash (Linux or macOS)
+export GOPROXY=https://proxy.golang.com.cn,direct # 还可以设置不走 proxy 的私有仓库或组，多个用逗号相隔（可选） export GOPRIVATE=git.mycompany.com,github.com/my/private 
+
+# PowerShell (Windows)
+$env:GOPROXY = "https://proxy.golang.com.cn,direct" # 还可以设置不走 proxy 的私有仓库或组，多个用逗号相隔（可选） $env:GOPRIVATE = "git.mycompany.com,github.com/my/private" 
+
+# update go if version < 1.13
+https://gomirrors.org/
+

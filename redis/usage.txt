@@ -1,0 +1,37 @@
+# switch repositories from 0-15
+select [indexNum]
+
+# set k-v
+set k1 lucy
+set k2 marry
+set k3 jack
+
+# list all keys
+keys *
+
+# check if key exists, return 1: true, return 0: false
+exists [key]
+
+# check key type
+type [key]
+
+# delete key, return 1: succeed, 0: failed
+del [key]
+# delete key in noblocking, delete from element data, true delete after in
+# synchronizing steps
+unlink [key]
+
+# set expire time
+expire [key] [secondsToNum]
+
+# check time to last,return -2: expired, -1: never
+ttl [key]
+
+# check key counts
+dbsize
+
+# clean current database repository
+flushdb
+
+# clean all dabatase repositories
+flushall

@@ -1,0 +1,9 @@
+c3p0:
+    https://sourceforge.net/projects/c3p0/
+
+dbcp:
+# dbcp has two libs to load: common-dbcp common-pool  # may deprecated
+    http://commons.apache.org/proper/commons-dbcp/download_dbcp.cgi
+
+druid:
+    https://github.com/alibaba/druid/releases

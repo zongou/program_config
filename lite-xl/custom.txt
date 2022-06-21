@@ -1,0 +1,2 @@
+# define userdata dir at lite-xl/data/core/init.lua, add
+USERDIR = "./userdir"

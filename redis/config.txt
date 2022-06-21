@@ -1,0 +1,38 @@
+#NOTE: dont forget to connect to internet, dhclient
+apt install redis-server
+
+# port: 6379
+
+# background start
+redis.conf, daemonize yes
+
+# start in backgroud
+redis-server [redis.config]
+
+# check background process
+ps -ef |grep redis
+
+# check connection, return pang means ok
+ping
+
+#stop redis
+    in redis-cli: shutdown
+    kill: kill -9 [SID]
+    service redis-server stop
+
+# if installed by make, installation dir is /usr/local/bin
+
+################################## configuration #####################################
+# to enable login by local internet, comment 'bind 127.0.0.1 ::1'
+#bind 127.0.0.1 ::1
+# enable remote access, change protected-mode from yes to no
+protected-mode no
+
+
+timeout
+keep-alive
+port
+loglever
+
+# virtual machine
+connect to internet, dhclient

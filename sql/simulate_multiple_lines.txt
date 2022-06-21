@@ -1,0 +1,13 @@
+SELECT
+	SUM(num) sum
+FROM
+	(
+		SELECT
+			'1' AS 'num'
+		UNION
+			SELECT
+				'-2'
+			UNION
+				SELECT
+					'3'
+	) cache_table

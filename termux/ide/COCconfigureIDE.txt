@@ -1,0 +1,119 @@
+#========================================
+
+# install clang 
+apt install clang
+
+# add snippets
+Plug 'honza/vim-snippets'
+:PlugInstall
+
+# coc
+coc-clangd
+
+#========================================
+
+# configire python
+apt install python
+pip install jedi
+
+# coc
+coc-python
+
+#========================================
+
+# web
+coc-html coc-css
+
+# configure javaScript/typescript
+npm install typescript
+
+# coc
+coc-tsserver
+
+#========================================
+
+# configure golang
+apt install golang
+
+# coc
+coc-go
+
+#========================================
+
+# others
+https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions
+
+coc-actions Actions menu for Neovim
+coc-angular for angular.
+coc-bookmark bookmark extension
+coc-browser for browser words completion
+coc-calc expression calculation extension
+coc-cfn-lint for CloudFormation Linter, cfn-python-lint
+coc-clangd for C/C++/Objective-C, use clangd
+coc-cmake for cmake code completion
+coc-cord discord rich presence integration.
+coc-css for css, scss and less.
+coc-cssmodules css modules intellisense.
+coc-discord discord rich presence for coc.nvim
+coc-ecdict ECDICT extension
+coc-elixir for elixir, based on elixir-ls.
+coc-ember for ember projects.
+coc-emmet provides emmet suggestions in completion list.
+coc-erlang_ls for erlang, based on erlang_ls
+coc-eslint Eslint extension for coc.nvim
+coc-explorer file explorer extension
+coc-floaterm for vim-floaterm integration
+coc-flow for flow
+coc-flutter for flutter
+coc-fsharp for fsharp.
+coc-fzf-preview provide powerful fzf integration.
+coc-git provides git integration.
+coc-gist gist extension.
+coc-go for go, use gopls.
+coc-graphql for graphql.
+coc-highlight provides default document symbol highlighting and color support.
+coc-html for html, handlebars and razor.
+coc-java for java, use eclipse.jdt.ls.
+coc-jedi for python, use jedi-language-server.
+coc-json for json.
+coc-julia for julia.
+coc-lists provides some basic lists like fzf.vim.
+coc-lsp-wl for wolfram mathematica, fork of vscode-lsp-wl.
+coc-markdownlint for markdown linting
+coc-metals for Scala using Metals
+coc-omnisharp for csharp and visualbasic.
+coc-perl for perl.
+coc-phpactor for php, using phpactor
+coc-phpls for php, use intelephense-docs.
+coc-powershell for PowerShellEditorService integration.
+coc-prisma for Prisma schema integration.
+coc-pyright Pyright extension
+coc-python for python, extension forked from vscode-python.
+coc-r-lsp for r, use R languageserver.
+coc-reason for reasonml
+coc-rls for rust, use Rust Language Server
+coc-rome for javascript, typescript, json and more, use Rome
+coc-rust-analyzer for rust, use rust-analyzer
+coc-sh for bash using bash-language-server.
+coc-stylelintplus for linting CSS and CSS preprocessed formats
+coc-stylelint for linting CSS and CSS preprocessed formats
+coc-snippets provides snippets solution.
+coc-solargraph for ruby, use solargraph.
+coc-sourcekit for Swift
+coc-spell-checker A basic spell checker that works well with camelCase code
+coc-sql for sql.
+coc-svelte for svelte.
+coc-svg for svg.
+coc-tabnine for tabnine.
+coc-tailwindcss for tailwindcss.
+coc-tasks for asynctasks.vim integration
+coc-template templates extension for file types
+coc-texlab for LaTex using TexLab.
+coc-todolist for handy todolist/task management
+coc-translator language transaction extension
+coc-tsserver for javascript and typescript.
+coc-vetur for vue, use vetur.
+coc-vimlsp for viml.
+coc-xml for xml, use lsp4xml.
+coc-yaml for yaml
+coc-yank provides yank highlights & history.

@@ -1,0 +1,26 @@
+initial:
+	# run as admin
+	# add to system variables
+	mysql_install_db --service=mysql
+	# start serive
+	net start mysql
+	# login
+	mysql -u root
+	
+set passowd:
+	method1:
+		mysqladmin -u root password
+		'newpassword'
+
+	method2: 
+		UPDATE mysql.user SET password = PASSWORD('newpassward') WHERE USER = 'root';
+		FLUSH PRIVILEGES;
+		
+	method3:
+		SET password=PASSWORD('newpassward');
+		FLUSH PRIVILEGES;
+
+change password:
+	mysqladmin -u root -p'oldpassword' password
+	'newpassword'
+		

@@ -1,0 +1,12 @@
+Auto Close Tag					formulahendry.auto-close-tag
+Auto Complete Tag				formulahendry.auto-complete-tag
+Auto Rename Tag					formulahendry.auto-rename-tag
+
+Bracket Pair Colorizer 2		coenraads.bracket-pair-colorizer-2
+Escape HTML code				raymondcamden.htmlescape-vscode-extension
+ESLint							dbaeumer.vscode-eslint
+Live Server						ritwickdey.liveserver
+Live Preview					ms-vscode.live-server
+Open							sandcastle.vscode-open
+Vetur							octref.vetur
+Vue3 Snippets					hollowtree.vue-snippets

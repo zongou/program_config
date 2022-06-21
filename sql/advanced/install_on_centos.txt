@@ -1,0 +1,15 @@
+# check if installed
+	rpm -qa |grep -i mysql
+	
+# install package
+	rpm -ivh package.rpm
+	
+# set password
+	mysqladmin -u root password
+	
+# check runing status
+	ps -ef|grep redis
+	
+# check if installed
+	cat /etc/passwd |grep mysql
+	cat /etc/group |grep mysql

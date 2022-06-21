@@ -1,0 +1,8 @@
+# command to set start on boot on centos
+	chkconfig mysql on
+
+# check start mode details
+	chkconfig --list |grep mysql
+	
+# or use ntsysv to set start on boot
+	ntsysv

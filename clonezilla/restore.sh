@@ -1,0 +1,1 @@
+/usr/sbin/ocs-sr -g auto -e1 auto -e2 -c -r -j2 -scr -p reboot restoredisk [image] sdb

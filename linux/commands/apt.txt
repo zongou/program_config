@@ -1,0 +1,11 @@
+# no suggests
+    --no-install-suggests
+
+# download only
+    -d
+
+# clean download deb
+    apt clean
+
+# clean remove
+apt --purge autoremove packageName

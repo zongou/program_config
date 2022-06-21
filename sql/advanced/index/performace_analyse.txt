@@ -1,0 +1,205 @@
+# Mysql Query Optimizer
+	model that mysql collects statistics and execute the best Execution Plan for user, the best way to query may be different to DBA thinks)
+	
+# usual bottleneck
+	CPU: cpu is full loaded when data loads into RAM or read data from disk
+	IO: bottleneck happens when the data to load is for larger than RAM capacity
+	server performance: check performance with 'top, free, iostat and vmstat'
+	
+# Explain
+	usage:
+		explain + <sql_sentences>
+		example:
+			explain select * from tbl_emp;
+			explain select * from t_emp left join t_dept on t_emp.deptId = t_dept.id;
+	what can it do?
+		get the order to read the table
+		get the type of operation to read data
+		get the available indexes
+		get the index used
+		get references between tables
+		get how many rows of each table has been queried
+		
+	columns:
+	id		select_type 	table		type		possible_keys		key		key_len		ref					rows		Extra
+	1		SIMPLE			t_emp		ALL			NULL				NULL	NULL		NULL				10	
+	1 		SIMPLE			t_dept		eq_ref		PRIMARY				PRIMARY	4			advanced.e.deptId	1			Using where
+	
+	most important columns: id, type, ref, rows
+	
+	# id
+		when id is the same, can be considered as a group, runs orderly
+		in every group, the bigger id is, it runs first
+		id 1 1 1
+			when id is the same, runs down orderly
+				example
+					explain select t2.*
+					from t1, t2, t3
+					where t1.id = t2.id and t2.id = t3.id
+					and t1.other_column = '';
+		id 1 2 3
+			subquery with bigger id will be queried first
+				example
+					explain select t2.*
+					from t2
+					where id = (select id 
+								from t1 
+								where id = (select t3.id
+								from t3
+								where t3.other_column = ''));
+								
+	# select_type
+		SIMPLE
+			simple select query, no subquery or UNION
+			
+		PRIMARY
+			when there is subpart in a query, the outest query is marked 'PRIMARY', PRIMARY qeury is the last to load
+			
+		SUBQUERY
+			in the list of SELECT of WHERE where is subquery
+			
+		DERIVED
+			derive[id]
+			when subquery in the list of FROM is marked DERIVED, MySQL will recursively execute there subqueris and put them on the temporary table
+			
+		UNION
+			when the second SELECT exists after UNION, will be marked UNION;
+			if UNION is included from a subquery of FROM, the outer SELECT query will marked DERIVED
+		UNION RESULT
+			the SELECT to get result from UNION table
+			
+	# table
+		current talbe
+		
+	# type
+		types from best to worst
+			system	>	const	>	eq_ref	>	ref	>	range	>	index	>	ALL
+			# when result size comes to M, we usually optimise type to level 'range' and better be 'ref'
+			
+		# system
+			a table with only one result(equals system table),  special instance of const
+			
+		# const
+			example:
+				explain select * from (select * from t1 where id = 1) d1;
+			get the result by index only once, const is used for comparing PRIMARY KEY or UNIQUE, because only match one result, so it is fast
+			if put main key in the list of WHERE, MySQL can transfor query to a constant variable
+
+		# eq_ref
+			example:
+				explain select * from t1, t2 where t1.id = t2.id;
+				like search ceo of a company
+			unique index scan, only one result in table is matched, usually seen in main key for unique key scan
+				e
+		# ref
+			not unique, return all rows match single value,
+			in fact it is a kind of index query, it returns all the rows match a single value,
+			through, it might find some rows, so it belongs to a mix of search and scan
+			
+		# range
+			only scan rows in a range, use a index to select rows, column key shows the index used
+			usually happens when you used BETWEEN, <, >, in..etc.. in the sentence of WHERE
+			this is better than ALL, it starts at a point of index, and finish at the other point, no need to san ALL
+			
+		# index
+			example:
+				explain select * from t1;	// not passed test
+			Full Index Scan, the different between index and ALL is index only scans index tree, usually it is faster than ALl, because index file is usally smaller than database file( even throgh Index and All both read full talbe, but index read from index file, All read from disk)
+			
+		# ALL
+			example:
+				explain select * from t1 where column_without_index = '';
+			scan all the table to find matched data
+			
+	# possible_keys, key, key_len
+		possible_keys:
+			indexes might be used in the table, one or some,
+			if the coloumn queried is related to index, index will be listed, but not necessarily used
+			
+		key:
+			the key used, could be no key used
+			
+		# when columns matches index, for example:		# full indexes covered
+			create index idx_col1_col2 on t2(col1, col2);
+			explain select col1, col2 from t1;
+			 type will become index
+		key_len 
+			the bytes index uses, we can calculate index length with this column, at the point of not losing precisure, the shorter the better,
+			key_len shows the max possible length, not actual length, as to say key_len is calculated by defination of table, not by queried the table
+			preciou is the oppsite of key_len, the more precise, the lengther it gets
+				explain select * from t1 where col1 = 'ab';						# key_len: 13
+				explain select * from t1 where col1 = 'ab' and col2 = 'ac';		# key_len: 26
+			
+	# ref
+		shows which column of index is used, if possible, it is  a constant
+		
+	# rows
+		how many rows in a table are queried by MySQL, the lesser the better
+	
+	# Extra
+		important information that is not included in other columns
+		# show Explain in portrait mode
+			explain select col1 from t1 where col1 = 'ac' order by col3\G  			# no ;
+		# values:
+			Using filesort:									# (in danger)
+				means MySQL will use a outer index sorting, rather than index from table to read,
+				the sorting operation that MySQL cannot make use of index is called 'filesort',
+
+					example:
+						explain select col1 from t1 where col1 = 'ac' order by col3\G
+							key: idx_col1_col2_col3
+							extra:	Using where; Using index; Using filesort
+						explain select col1 from t1 where col1 = 'ac' order by col2, col3\G
+							key: idx_col1_col2_col3
+							extra:	Using where; Using index
+					# when query with the same order index is built, faster
+			Using temporary:								# (dying, temporary table costs lost of performance)
+				result of using temporary table to store result, commonly seen in soring ORDER BY  and GROUP BY
+					example:
+						explain select col1 from t1 where col1 in ('ac', 'ab', 'aa') group by col1\G
+							Extra: Using where; Using index; Using temporary; Using filesort
+						explain select col1 from t1 where col1 in ('ac', 'ab', 'aa') group by col1, col2\G
+							Extra: Using where, Using index for group-by
+			Using index:									# very good
+				means the accoring SELECT used Covering Index), to escape visiting rows of data, good at performance
+				if shows 'using where' at the same time, means index is used to search index key-value
+				if there is no 'using where', means index is used to read data rather than the operation to search 
+					example:
+						explain select col2 from t1 where col1 = 'ab'
+							key: idx_col1_col2
+							Extra: Using where; Using index
+						explain select col1, col2 from t1;
+							type: index
+							key: idx_col1_col2
+							Extra: Using index
+							
+			# Covering index		( select columns same as indexes
+				select get the data directly from index, no need to read database rows,
+				 MySQL could use index to return columns to get by select,
+				  rather than read database file according to the index,
+				  in another word, the columns to select is covered
+			
+# warm up
+===============exercise===============
+mysql> explain select d1.name, (select id from t3) d2
+	-> from (select id, name from t1 where other_column = '') d1
+	-> union 
+	-> (select name, id from t2);
+
+
+id		select_type		table		type		passible_keys		key		key_len		ref		rows		Extra
+1		PRIMARY			<derived3>	system		NULL				NULL	NULL		NULL	1			
+3		DERIVED			t1			ALL			NULL				NULL	NULL		NULL	1			Using where
+2		SUBQUERY		t3			index		NULL				PRIMARY	4			NULL	1			Using index
+4		UNION			t2			ALL			NULL				NULL	NULL		NULL	1
+NULL	UNION RESULT	<union1, 4>	ALL			NULL				NULL	NULL		NULL	NULL
+
+
+===============answer===============
+exection order:
+
+4 select id.name...
+3 sleect id, name from t1 where other_column = '') d1
+2 (select id from t3) d2
+1 select name, id from t2			
+NULL union..

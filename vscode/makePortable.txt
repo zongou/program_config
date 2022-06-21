@@ -1,0 +1,4 @@
+add folder "data" to root folder
+settings.json:
+	add 
+	"java.home": "./jbr"

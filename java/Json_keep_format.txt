@@ -1,0 +1,1 @@
+@JsonFormat(shape = JsonFormat.Shape.STRING)

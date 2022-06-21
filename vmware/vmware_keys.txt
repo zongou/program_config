@@ -1,0 +1,16 @@
+系统要求 
+
+VM16 -> Windows 10 x64
+VM15 -> Windows 7 或更高版64位
+VM12 -> Windows 7 或更高版64位
+VM10 -> Windows XP 或更高版32位和64位
+官方自VM14版本开始不支持某些老旧电脑硬件
+会提示不支持或安装失败, 如遇到请退回12版本
+
+激活密钥
+
+VMware激活密钥（通用批量永久激活许可）
+16：ZF3R0-FHED2-M80TY-8QYGC-NPKYF
+15：FC7D0-D1YDL-M8DXZ-CYPZE-P2AY6
+12：ZC3TK-63GE6-481JY-WWW5T-Z7ATA
+10：1Z0G9-67285-FZG78-ZL3Q2-234JG

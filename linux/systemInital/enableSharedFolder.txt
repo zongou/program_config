@@ -1,0 +1,3 @@
+install vm-tools;
+if there is no /mnt/hgfs, make one;
+add "sudo vmhgfs-fuse .host:/ /mnt/hgfs" to .bashrc

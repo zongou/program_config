@@ -1,0 +1,6 @@
+
+//set fullscreen
+getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+//cancel
+getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);

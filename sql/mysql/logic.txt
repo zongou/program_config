@@ -1,0 +1,82 @@
+
+----------------------------------------
+ordinal logic: runs from top to the tail.
+cased logic: runs based on optional value.
+
+
+----------------------------------------
+             cased logic
+----------------------------------------
+if
+
+if(expressionA, expressionB, expressionC);
+# order:
+    if expressinA is true, then return value by expressionB, else return the vaule by expressionC.
+# if logic can be applyed anythere.
+
+if expression then expression;      # this can only be applied within 'begin-end'
+elseif expression and|or expression then express;
+else expression
+end if;
+----------------------------------------
+case
+
+there are two cases of case:
+
+caseA, standalone script:
+    case valuetoJudge|expression|column
+    when valueA then valueToReturn
+    when valueB then valueToReturn
+    else valueToReturn                  # else can be omitted, if none is satisfied, return null
+    end; 
+    # this script can be applied anythere
+    # this script usually is for value equivelent judgement
+or
+    case
+    when expressionA then expression;   # if expressionA is satisfied, jump out of loop
+    when expressionB then expression;
+    else expression;
+    end;
+caseB, seperated scripts in 'begin-end':
+    case valuetoJudge|expression|column
+    when valueA then valueToReturn;     # sperated scripts add ';' as the end of line
+    when valueB then valueToReturn;     
+    else valueToReturn;
+    end case;                           # use 'end case'
+    # this script can be applied anythere
+    # this script usually is for value equivelent judgement
+or
+    # speratated scripts can only be applied in begin-end clause
+    case
+    when expressionA then expression;   
+    when expressionB then expression;
+    else expression;                    
+    end case;       # in begind-end, use 'end case'
+----------------------------------------
+                examples
+# acorrding to points, print level with 'if':
+    delimiter $$
+    create or replace function myf(score int) returns char
+    begin
+        if score >=90 then return 'A';
+        elseif score >=80 then return 'B';
+        elseif score >=60 then return 'C';
+        else return 'D';
+        end if;
+    end $$
+    delimiter ;
+    select myf(95);
+# acorrding to points, print level with 'case':
+    delimiter $$
+    create or replace procedure myp(in score int)
+    begin
+        case
+        when score>=90 then select 'A';
+        when score>=80 then select 'B';
+        when score>=60 then select 'C';
+        else select 'D';
+        end case;
+    end $$
+    delimiter ;
+    call myp(91);
+

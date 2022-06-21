@@ -1,0 +1,22 @@
+//getView method in adapter
+	public View getView(int i, View view, ViewGroup viewGroup) {
+        MyViewHolder viewHolder;
+        if(view==null){
+            view= getLayoutInflater().inflate(R.layout.item,viewGroup,false);
+            viewHolder=new MyViewHolder(view);
+            view.setTag(viewHolder);
+        }else{
+            viewHolder= (MyViewHolder) view.getTag();
+        }
+        //set attributes here
+
+        return view;
+    }
+//viewholder calss
+	class MyViewHolder{
+        int order;
+        EditText editText;
+        public MyViewHolder(View view){
+            editText=view.findViewById(R.id.editText);
+        }
+    }

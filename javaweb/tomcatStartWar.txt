@@ -1,0 +1,17 @@
+### set JAVA_HOME
+```bash
+# make backup first
+
+# win
+    set JAVA_HOME=D:\java\jdk1.8.0_181
+    set JRE_HOME=D:\java\jdk1.8.0_181\jre
+
+# linux
+    JAVA_HOME="/usr/local/java/jdk1.8.0_181"
+    JRE_HOME="/usr/local/java/jdk1.8.0_181/jre"
+```
+
+### run  
+    run /bin/startup.bat
+### browser URL
+    localhost:8080/webappName

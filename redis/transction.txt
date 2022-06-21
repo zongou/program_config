@@ -1,0 +1,40 @@
+two parts: queuing and executing
+commands:
+	multi
+	set key1 value1
+	set key2 value2
+	exec/discard
+	
+error when queuing,all steps in queue will not execute
+	multi
+	set b1 v1
+	set b2 v2
+	set b3
+	exec
+	
+error when executing, only the wrong step will not execute
+	multi
+	set c1 v1
+	incr c1
+	set c2 v2
+	exec
+	
+depressed lock, use lock to queue operating, java
+
+optimistic lock, use git version like version control, get version before operation, if version match then operate, redis
+example:
+	session1:
+		set balance 100
+		watch balance
+		multi
+		incrby balance 10
+	session2:
+		watch balance
+		multi
+		incrby balance 20
+	session1:
+		exec
+	session2:
+		exec
+	
+	#session2 will fail, to unwatch, use command 'unwatch'

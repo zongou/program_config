@@ -1,0 +1,8 @@
+#If WinActive("CoordGrid") or coordGridVisible
+Hotkey, If, WinActive("CoordGrid") || coordGridVisible
+Hotkey, %keyHide%, hideCoordGrid
+loop 26
+{
+	HotKey, % "~" chr(96 + A_Index), RunKey
+}
+Return

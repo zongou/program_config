@@ -1,0 +1,24 @@
+# run order:
+	FROM, including JOINs
+	WHERE
+	GROUP BY
+	HAVING
+	WINDOW functions
+	SELECT
+	DISTINCT
+	UNION
+	ORDER BY
+	LIMIT and OFFSET
+
+
+# syntax order
+	from <left_table>
+	on <join_condition>
+	<join_type> join <right_table>
+	where <where_condition>
+	group by <group_by_list>
+	having <having_condition>
+	select
+	distinct <select_list>
+	order by <order_by_conditon>
+	limit <limit_number>

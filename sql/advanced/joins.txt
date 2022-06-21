@@ -1,0 +1,63 @@
+========MySql========	
+# A + common from B
+	SELECT <select_list>
+	FROM TableA A
+	LEFT JOIN TABLEB B
+	ON A.Key = B.Key
+
+# A - common from B
+	SElECT <select_list>
+	FROM TableA A
+	LEFT JOIN TABLEB B
+	ON A.Key = B.Key
+	WHERE B.Key IS NULL
+	
+# common
+	SELECT <select_list>
+	FROM TableA A
+	INNER JOIN TableB B
+	ON A.Key = B.Key
+	
+# A union B
+	SELECT <select_list>
+	FROM TableA A
+	LEFT JOIN TABLEB B
+	ON A.Key = B.Key
+	
+	UNION
+	
+	SELECT <select_list>
+	FROM TableA A
+	RIGHT JOIN TABLEB B
+	ON A.Key = B.Key
+	
+# A union B - common
+	SElECT <select_list>
+	FROM TableA A
+	LEFT JOIN TABLEB B
+	ON A.Key = B.Key
+	WHERE B.Key IS NULL
+	
+	UNION
+	
+	SElECT <select_list>
+	FROM TableA A
+	RIGHT JOIN TABLEB B
+	ON A.Key = B.Key
+	WHERE B.Key IS NULL
+	
+========Oracle========	
+# oracle, A union B
+	SELECT <select_list>
+	FROM TableA A
+	FULL OUTER JOIN TableB B
+	ON A.Key = B.Key
+	
+# orable, A union B - common
+	SELECT <select_list>
+	FROM TableA A
+	FULL OUTER JOIN TableB B
+	ON A.Key = B.Key
+	WHERE A.Key IS NULL
+	OR B.Key IS NULL
+

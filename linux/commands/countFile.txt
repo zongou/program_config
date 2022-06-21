@@ -1,0 +1,12 @@
+count files:
+	ls -l | grep "^-" | wc -l
+
+count directories
+	ls -l | grep "^d" | wc -l
+
+count files including in subfolders
+	ls -lR | grep "^-" | wc -l
+
+count size
+	du
+	df

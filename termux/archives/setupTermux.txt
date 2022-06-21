@@ -1,0 +1,174 @@
+# setup dev environment
+# termux origin part
+# change bottom bar on termux
+
+# termux-setup-storage
+# add line to get rid of error
+ln -s ~/storage/shared/ ~/sdcard
+
+# comfigure keylayout
+sh storage/shared/phone_backup/termux/keylayouts/normalboard.sh
+
+# termux-change-repo
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list
+sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list.d/game.list
+sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list.d/science.list
+apt update
+echo "Wellcome to Termux!">/data/data/com.termux/files/usr/etc/motd
+
+# extra part
+#install debian
+ bash $HOME/storage/shared/phone_backup/termux/debian.sh
+#=========================
+#login debian first
+#===========Change debian sources==============
+# commads bellow cannot run along side with others
+cat << EOM | tee /etc/apt/sources.list
+deb https://mirrors.163.com/debian/ buster main contrib non-free
+# deb-src https://mirrors.163.com/debian/ buster main contrib non-free
+deb https://mirrors.163.com/debian/ buster-updates main contrib non-free
+# deb-src https://mirrors.163.com/debian/ buster-updates main contrib non-free
+deb https://mirrors.163.com/debian/ buster-backports main contrib non-free
+# deb-src https://mirrors.163.com/debian/ buster-backports main contrib non-free
+deb https://mirrors.163.com/debian-security buster/updates main contrib non-free
+# deb-src https://mirrors.163.com/debian-security buster/updates main contrib non-free
+EOM
+cat /etc/apt/sources.list && apt update
+
+#============install Oracle JDK13=============
+#install Oracle JDK13
+echo "installing JDK13"
+cp /sdcard/phone_backup/termux/jdk/OpenJDK13U-jdk_aarch64_linux_hotspot_13.0.2_8.tar.gz $HOME
+mkdir -p /opt/jvm
+tar -zxvf OpenJDK13U-jdk_aarch64_linux_hotspot_13.0.2_8.tar.gz -C /opt/jvm
+rm OpenJDK13U-jdk_aarch64_linux_hotspot_13.0.2_8.tar.gz
+cat << EOM | tee /etc/profile.d/jdk.sh
+export JAVA_HOME=/opt/jvm/jdk-13.0.2+8
+export CLASSPATH=.:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar
+export PATH=\$JAVA_HOME/bin:\$PATH
+EOM
+source /etc/profile.d/jdk.sh
+java -version
+echo "JDK13 installed"
+
+#============OpenJDK11 for IDEA=============
+#install Oracle JDK11
+echo "installing JDK11"
+cp /sdcard/phone_backup/termux/jdk/OpenJDK13U-jdk_aarch64_linux_hotspot_13.0.2_8.tar.gz $HOME
+mkdir -p /opt/jvm
+tar -zxvf OpenJDK13U-jdk_aarch64_linux_hotspot_13.0.2_8.tar.gz -C /opt/jvm
+rm OpenJDK13U-jdk_aarch64_linux_hotspot_13.0.2_8.tar.gz
+cat << EOM | tee /etc/profile.d/jdk.sh
+export JAVA_HOME=/opt/jvm/jdk-13.0.2+8
+export CLASSPATH=.:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar
+export PATH=\$JAVA_HOME/bin:\$PATH
+EOM
+source /etc/profile.d/jdk.sh
+java -version
+echo "JDK11 configured"
+
+#==========install code server===============
+#install code-server
+echo "installing code-server"
+cp /sdcard/phone_backup/termux/code-server_3.5.0_arm64.deb ~/
+cd ~/ && dpkg -i code-server_3.5.0_arm64.deb
+rm code-server_3.5.0_arm64.deb
+cat << EOF | tee /root/start-code-server.sh
+code-server --auth none --bind-addr 192.168.3.150:8080
+EOF
+chmod 777 start-code-server.sh
+echo "code-server installed"
+code-server --version
+
+#============install code-server extensions=============
+#Get and install extension 
+cp /sdcard/phone_backup/termux/VS_code/Maven_for_Java-0.22.0.vsix $HOME
+cp /sdcard/phone_backup/termux/VS_code/Language_Support_for_Java-0.64.1.vsix $HOME
+cp /sdcard/phone_backup/termux/VS_code/Java_Test_Runner-0.24.0.vsix $HOME
+cp /sdcard/phone_backup/termux/VS_code/Java_Dependency_Viewer-0.10.2.vsix $HOME
+cp /sdcard/phone_backup/termux/VS_code/Debugger_for_Java-0.27.1.vsix $HOME
+code-server --install-extension Maven_for_Java-0.22.0.vsix
+code-server --install-extension Language_Support_for_Java-0.64.1.vsix
+code-server --install-extension Java_Test_Runner-0.24.0.vsix
+code-server --install-extension Java_Dependency_Viewer-0.10.2.vsix
+code-server --install-extension Debugger_for_Java-0.27.1.vsix
+rm *.vsix
+clear
+code-server --version
+code-server --list-extensions
+
+
+
+
+#==========install GUI===========
+#==========install xfce4===========
+apt install xfce4 xfce4-terminal -y
+#==========xsdl===========
+# xsdl set video color 24bit
+cat << EOM | tee ~/xsdl.sh
+export DISPLAY=127.0.0.1:0
+export PULSE_SERVER=tcp:127.0.0.1:4713
+x-window-manager & startxfce4
+EOM
+chmod 777 ~/xsdl.sh
+
+#==========install vncserver===========
+apt install tigervnc-standalone-server -y
+#==========startup VNC===========
+#1436x720
+
+
+#export USER=$(whoami)
+vncserver
+
+cat << EOM | tee ~/vnc.sh
+vncserver -kill :1
+vncserver :1 --geometry 720x1436
+EOM
+chmod 777 ~/vnc.sh
+
+cat << EOM | tee ~/idea.sh
+sh /sdcard/idea-IC-202.6948.69/bin/idea.sh
+EOM
+chmod 777 ~/idea.sh
+
+
+#==========END===========
+#setup timezone
+check time date
+check timezone date -R
+select timezone   tzselect
+#export time zone env, add to end of /etc/profile
+export TZ='Asia/Shanghai'
+export PATH=$TZ:$PATH
+
+#paulseaudio vnc
+cat << EOM | tee ~/vnc.sh
+vncserver -kill :1
+vncserver :1
+export PULSE_SERVER=tcp:0.0.0.0:4713
+EOM
+chmod 777 ~/vnc.sh
+
+
+一键安装xfce桌面
+termux ubuntu debian 通用[doge呵斥]
+
+apt-get install xfce4 xfce4-terminal tightvncserver -y
+apt-get install xfe -y
+apt-get clean
+记得切换清华源
+
+然后完成之后
+
+vncserver
+输入你的VNC密码
+n
+然后就会启动桌面
+端口1
+---+
+关闭
+vncserver -kill :端口
+开启
+vncserver :端口
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

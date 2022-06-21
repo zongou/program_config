@@ -1,0 +1,9 @@
+//manifest
+	<activity android:name=".desciplines.names_and_faces.NamesAndFaces">
+        <meta-data android:name="android.support.PARENT_ACTIVITY"
+                   android:value=".main.MainActivity"/>
+    </activity>
+//activity
+	if(NavUtils.getParentActivityName(NamesAndFaces.this)!=null){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }

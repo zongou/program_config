@@ -1,0 +1,1 @@
+code-server --auth none --bind-addr 192.168.31.230:8080

@@ -1,0 +1,27 @@
+# seperated steps
+    gzip -dc file.tar.gz | tar -xf -
+    tar cvf - file | gzip > file.tar.gz
+
+# muilti-thread xz
+    tar -I "xz -T0 -v" -cvf vim.tar.xz vim.tar
+
+# auto select with name extension
+    tar -cavf tmp.tar.gz ./tmp
+
+# 7z depress xz then tar
+    7z x -so file.tar.xz | tar xf -
+# xz then tar
+    xz -cd *.tar.xz | tar xvf -
+
+# mac os
+    unxz < file.tar.xz > file.tar
+    # equivalent to:
+    xz -dc < file.tar.xz > file.tar
+
+# chain
+    time tar -cvf - vim | gzip -cv | bzip2 -cv  | xz -vv -T0 > target
+    ls -lh
+    xz -dc target | bzip2 -dc | gzip -dc | tar -xvf -
+
+# ultra
+	7z a -t7z -m0=lzma2:28 -m1=lzma:d=20 -m2=bcj2 -mx=9 -ms=on -mfb=273 -md=1024m ./ideaIU-2020.3.3.win.7z ./ideaIU-2020.3.3.win\ -aoa

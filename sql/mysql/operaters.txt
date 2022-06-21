@@ -1,0 +1,68 @@
+loop in mysql includes: while, loop, repeat
+loop control: 
+    iterate         # is like continue in java, end this loop and continue the next
+    leave           # is like break in java, end loop
+
+syntax of while:
+    # judge before runing
+    [lable:] while expression do        # lable is like the name of loop,iterate a to continue,leave a to end loop
+        expression...;
+    end while [lable];      # lable is optional, use with 'iterate'
+syntax of repeat:
+    # runing then judge
+    [lable:] repeate
+        expression...;
+    untill expression       # condition to end loop, 'repeat' loop at least once
+    end repeat [lable];
+syntax of loop:
+    # loop infinitly by default
+    [lable:] loop           # without using with 'iterate', this is an infinity loop
+        expression...;
+    end loop [lable];
+----------------------------------------
+                example
+# according to giving number insert into table 'account':
+    delimiter $$
+    create or replace procedure myp(in count int)
+    begin
+        declare i int default 0;
+        while i < count do
+            set i = i+1;
+            insert into account(name, deposit) values(concat('Tom',i),100);
+        end while;
+    end $$
+    delimiter ;
+    call myp(100);
+    select * from account;
+# according to giving number insert into table 'account' with 'lable' to limit 20 times:
+    delimiter $$
+    create or replace procedure myp(in count int)
+    begin
+        declare i int default 0;
+        a:while i < count do
+            set i = i+1;
+            insert into account(name, deposit) values(concat('Tom',i),100);
+            if i=20 then leave a;
+            end if;
+        end while a;
+    end $$
+    delimiter ;
+    call myp(100);
+    select * from account;
+# use with iterate:
+    delimiter $$
+    create or replace procedure myp(in count int)
+    begin
+        declare i int default 0;
+        a:while i<count do
+            set i=i+1;
+            if mod(i,2) !=0 then iterate a;     # 'iterate a' here is like continue in java
+            end if;
+            insert into account(name, deposit) values(concat('Tom',i),100);
+        end while a;
+    end $$
+    delimiter ;
+    truncate table account;
+    call myp(100);
+    select * from account;
+

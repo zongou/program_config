@@ -1,0 +1,7 @@
+fdisk -l
+lsblk
+cfdisk
+sfdisk -l
+ls /dev/hd*
+cat /proc/partitions
+

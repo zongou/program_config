@@ -1,0 +1,33 @@
+#config rdb dir
+search: 'dir /', default is '/var/lib/redis'
+
+config save rdb snapchat to disk, save and bgsave
+search 'save', 'bgsave' in config file
+
+'save' saves manually, all process blocked, not recommanded
+'bgsave' saves asynchronized in the background, could response requests from clients
+
+'flushall' will generate an empty database file
+'stop-writes-on-bg-error', when disk is full, stop writting, enabling is recommanded
+'rdbcompression', to compress rdb
+'rdbchecksum', to check if rdb file is complete or broken, reduce 10% performance, but recommanded
+
+# the process the generate rdb
+create a new fork sub process to copy data to a tmporarily file, then replace, in order to improve security
+
+rdb will lost some data after last persistence just like snapchat of virtualmachine
+
+# test rdb
+config: save 30 10			# check every 30 seconds, if key changes is more than 10 within 30s, save snapshot, this save the 10 key changes, and reset count 
+
+usage:
+cli1:redis: mset k1 v1 k2 v2 ... k12 v12		# wait unitl time is up
+cli1:redis: dbsize
+cli2: cp dump.rdb dump.rdb.bak			# backup, use another session only to copy snapshot
+cli1:redis: shutdown					# shutdown, service redis-server stop,
+										# ('kill -p PID' not working, seems its protectd)
+cli1:redis: exit
+cli1: cp dump.rdb.bak dump.rdb			# restore
+cli1: service redis-server restart
+cli1: keys *							# shuld be only first 10 keys
+

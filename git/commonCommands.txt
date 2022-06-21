@@ -1,0 +1,108 @@
+init:
+    #  add global user config
+    git config --global user.name username
+    git config --global user.email emailAddr
+
+    # add repository user config
+    git config user.name username
+    git config user.email emailAddr
+
+check user info:
+    git config user.name
+    git config --list 		# show local + global
+    git config -l
+    git config -l --local
+    git config -l --global
+    git config -l --system
+    git config --list --show-origin		# Show the location of Git config files where these settings are defined
+
+ignore file permission change
+    git config core.filemode false
+
+use ssh:
+    git remote remove origin
+    git remote add origin git@github.com:username/repo
+
+use http
+    git remote remove origin
+    git remote add origin https://github.com/username/repo
+    # optional
+    git pull origin main
+    git branch --set-upstream-to=origin/main main
+
+store password:
+    # next time when you filled in passwords, 
+    # credential is stored at ~/.git-credentials
+    git config credential.helper store
+<<<<<<< HEAD
+
+reset
+    git log     # check logs
+    git reset --hard        # goes to previous version
+    git push -f             # force push
+
+revert
+    git log     # check logs
+    git revert -n 8b89621xxxxxx
+    git commit -m "revert add text.txt"
+    git push
+=======
+    
+config remove section
+	git config --remove-section user
+	
+config unset
+	git config --unset user.name
+	
+git set remote repo
+	git remote set-url origin https://codeup.aliyun.com/zongou/tmp.git
+	
+reset
+	git reset --hard ^HEAD
+	git push -f
+	
+revert
+	git revert ^HEAD
+	git commit -m "msg" && git push
+>>>>>>> 0378200eab4f232cee5af94332a23ad12cc1a673
+
+# remove all commits softly(no node opration)
+    git update-ref -d HEAD
+
+# proxy
+    # proxy all(not recommanded)
+        # with http
+        git config --global http.proxy http://127.0.0.1:7890
+        git config --global https.proxy https://127.0.0.1:7890
+        # with socks5 
+        git config --global http.proxy socks5://127.0.0.1:7890
+        git config --global https.proxy socks5://127.0.0.1:7890
+
+    # proxy github(recommanded)
+        # with socks5(recommanded)
+        git config --global http.https://github.com.proxy socks5://localhost:7890
+
+        # with http(not recommanded)
+        git config --global http.https://github.com.proxy http://localhost:7890
+
+        # reset proxy
+        git config --global --unset http.proxy
+        git config --global --unset https.proxy
+
+
+# crlf no auto convert
+    git config --global core.autocrlf false
+
+
+# branch
+    # show current branch name
+        git branch --shwo-current
+    # list branch
+        git branch --list
+    # branch rename
+        git branch -m [newname]
+    # remove remote branch
+        git push origin --delete [branchname]
+
+# password
+    git config --local credential.helper cache

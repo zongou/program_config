@@ -1,0 +1,5 @@
+edit bin/idea.properties
+    idea.config.path=${idea.home.path}/data/config
+    idea.system.path=${idea.home.path}/data/system
+    idea.plugins.path=${idea.home.path}/data/config/plugins
+    idea.log.path=${idea.home.path}/data/log

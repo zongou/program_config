@@ -1,0 +1,137 @@
+String, most basic type, k-v
+    commands:
+        set <key> <value>
+        get <key>
+        append <key> <value>        # append, return final length
+        strlen <key>                # return length
+        setnx <key> <value>         # set only when key not exits, return 1/0
+
+        incr <key>                  # increse by 1 when value is num, return result
+        decr <key>                  # decrese by 1 when value is num, return result
+        incrby <key> <num>          # increse by num, return result
+        decrby <key> <num>          # decrese by num, return result
+
+
+        mset <key1> <value1> <key2> <value2> ...            # return ok
+        mget <key1> <key2> ...                              # return values in lines
+        msetnx <key1> <value1> <key2> <value2>              # set when all the keys not exists, atomic
+        getrange <key> <start> <end>                        # return range of string, start from 0
+        setrange <key> <offset> <value>                     # set range of string, start from 0, return final length
+
+        setex <key> <timeToExpire,secondsToNum> <value>     # set key and expire time
+        getset <key> <value>                                # return the old value and set new value
+    
+    # <value> characteristics
+        # binary safed, stores any data that converted to string
+
+        # i++ in java in multithred is not atomic, redis is single thread and atomic
+        
+        # string data structure is like ArrayList in java, preset capacity and prepare capacity to reduce RAM repeatedly relocate, 
+        # capacity < 1M, double the size to extend
+        # capacity, >1M, extends by 1M
+
+        # string max capacity: 512M
+
+List，single key and multiple values, 
+    # characteristics
+        # data structure is like LinkedList in java, named quicklist
+        # when size is small, use ziplist(continued RAM space), when big, combine ziplists to quicklist
+        # [ziplist}--[ziplist]--[ziplist]--[ziplist]
+
+    # commands
+        lpush/rpush <key> <value1> <value2> <value3>...     # add to left or right, lpush: [v3][v2][v1], return size
+                                                                                    rpush: [v1][v2][v3]
+        lrange <key> <start> <stop>                         # return range from list in lines, loop: lrange <key> 0 -1, left to right
+        lindex <indexNum>                                   # return value by index
+        llen <key>                                          # return size
+
+        lpop/rpop <key>                                     # extract a value from list from left/right, key will be lost, return value, when all are extracted, list is empty
+        rpoplpush <key1> <key2>                             # pop from key1 from the right add push to key2 to the left
+        
+        linsert <key> before/after <value> <newValue>       # insert <newValue> before/after <value>, process the first matched value when duplicating
+        lrem <key> <count> <value>                          # remove count of values from left to right beginning at <value>
+        lset <key1> <index> <newValue>                      # set newValue
+
+Set, orderless, no duplication
+    # a hash table of string which value is null
+    # java HashSet uses HashMap, all values direct to one object, Set in redis is the same, but all values direct to a inner value
+
+    # commands:
+        sadd <key> <value1> <value2>...                     # add menber elements to the set <key>, return size
+        smembers <key>                                      # loop all menbers of key
+        scard <key>                                         # return size of set
+        sismember <key> <value>                             # return 1 if exists value in key, else return 0
+        srandmember <key> <n>                               # return n members of set randomly, not deleted
+
+        srem <key> <value1> <value2>                        # remove members in key, return size to remove
+        spop <key>                                          # extract one member randomly, return the extracted value
+        smove <source> <destination> <member>               # move a member from source to destination, return 1/0
+
+        sinter  <key1> <key2>                               # inter members of two sets
+        sunion <key1> <key2>                                # union of two sets
+        sdiff <key1> <key2>                                 # return differed members in key1
+
+Hash, key value set
+    # like Map<String,Object> in java, a string type map of field value, suitable for keeping objects
+    # two structures to store, ziplist and hashtable, when size is small, uses ziplist, when large uses hashtable
+
+    #       key                     value
+    #       user                field - value
+
+    #                           id      1
+    #                           name    xiaoming
+    #                           age     20
+
+    1:  user:{id=1,name=zhangsan,age=20}
+
+    2:  user:id     1
+        username    zhangsan
+        user:age    20
+
+    3: # recommamded
+        user    id      1
+                name    zhangsan
+                age     20
+
+    # commands:
+        hset <key>:<> <field> <value>                       # set field value, return 1/0,
+            hset user:1001 id 1
+            hset user:1001 name zhangsan
+        hmset <key>:<> <filed> <value> [filed value ...]    # set fileds and values, return ok
+            hmset user:1002 id 2 name lisi age 30
+        hexists  <key> <field>                                  # check if fied exists, return 1/0
+            hexists user:1001 id
+        hkeys <key>                                             # list all fileds in lines
+            hkeys user:1001
+        hvals <key>                                             # list all values in lines
+            hvals user:1002
+        hincrby <key> <field> <size>                            # field add size
+            hincrby user:1002 age 2
+        hsetnx <key>:<> <field> <value>                         # add when not exits  the field, return 1/0
+            hsetnx user:1002 age 40
+            hsetnx user:1002 gender 1
+
+Zset, sorted set
+    # commands:
+        zadd <key> [NX|XX] [CH] {INCR} <score> <member> [score member ...]      # add zset, return size
+            zadd topn 200 java 300 c++ 400 mysql 500 php
+        zrange <key> <start> <stop> [withscores]                                # return range and list in lines
+            zrange tops 0 -1 withscores
+        zrangebyscore <key> <score1> <score2> [withscores]                      # return range between scores, score1<score2 or return empty set
+            zrangebyscore topn 300 500 
+            zrangebyscore topn 300 500  withscores
+        zrevrange <key> <start> <stop> [withscores]                             # return range ordered from large to small
+            zrevrange topn 300 500 withscores
+
+        zincrby <key> <increment> member                                        # increse, return final score
+            zincreby topn 50 java
+
+        zrem <key> <member> [member ...]                                        # remove members, return 1/0
+
+        zcount <key> <min> <max>                                                # return the size between scores
+        zrank <key> <member>                                                    # return the rank index of member
+
+    # data structure:   hash and jumplist, jump list is like guessing price tv program
+        hash            field       value
+                        java        100
+                        php         200

@@ -1,0 +1,12 @@
+修改点:
+
+cmder\vendor\clink.lua
+
+将local cmder_prompt = "\x1b[1;32;40m{cwd} {git}{hg}{svn} \n\x1b[1;39;40m{lamb} \x1b[0m"
+
+修改为local cmder_prompt = "\x1b[1;32;40m{cwd} {git}{hg}{svn}\x1b[1;39;40m$ \x1b[0m"
+
+即:
+
+-- local cmder_prompt = "\x1b[1;32;40m{cwd} {git}{hg}{svn} \n\x1b[1;39;40m{lamb} \x1b[0m"
+	local cmder_prompt = "\x1b[1;32;40m{cwd} {git}{hg}{svn}\x1b[1;39;40m$ \x1b[0m"

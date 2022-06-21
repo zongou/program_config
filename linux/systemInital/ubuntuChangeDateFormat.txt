@@ -1,0 +1,2 @@
+# edit /etc/default/locale
+# replace 'zh_CN' with 'en_US'

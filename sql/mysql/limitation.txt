@@ -1,0 +1,72 @@
+limitaion:
+    not null
+    unique
+    default
+    check # not supported by mysql
+    primary key
+    foreign key # not supported by mysql
+
+note:
+    column limitation does not support 'foreign key'.
+    table limitaion does not support 'not null' and 'default'.
+    column limitation cannot have a name, but table limitation do.
+    set a name for table limitaion make no effect.
+    order of limitaion does not matter.
+useage example:
+    create table student_info(
+        id int primary key,
+        name varchar(20) not null,
+        seat int unique,
+
+        constraint limitaionName foreign key(columnName) references sourceTableName(columnName)
+
+check keys in table:
+    show index from tablename;
+delete primary key:
+    alter table tablename drop primary key;
+delete unique key:
+    alter table drop index keyName;
+add  foreign key:
+    alter table tablename add constraint foreignKeyName foreign key(columnName)
+    references tablename(columnName);
+delete foreign key:
+    alter table tableName drop foreign key limitaionName;
+alter limitation
+    alter table tablename modify columnName columnType limitaion..;
+    alter table tablename change oldColumnName newColumnName columnType limitaion; 
+# if insist to delete data
+# 级联删除
+    alter table tablename add constraint foreignKeyName foreign key(columnName)
+    references tablename(columnName) on delete cascade;
+# 级联置空
+    alter table tablename add constraint foreignKeyName foreign key(columnName)
+    references tablename(columnName) on delete set null;
+
+note!
+    one table can only contain one primary key, but multiple unique keys.
+    the type of column with foreign key must match the type from source table.
+    the column refered by foreign key show be a key.
+    when inserting data, inserting into source table first.
+    when deleting data, deleting from followed table first.
+
+
+autoincrement column:
+    check preset status:
+        show variables like '%auto_increment%';
+        # auto_increment_increment means steps
+        # auto_increment_offset means begenning vaule;
+    set variables:
+        set auto_increment_increment=[vaule];
+        set @@auto_increment_increment=[value];
+note:
+    one table can only contain one auto increment column.
+    only vaule type column is supported.(? decimal).
+    in mysql, auto increment column must be a key.
+useage:
+    create table tableName(
+        id int unique auto_increment
+    );
+update auto increment:
+    alter table tableName modify columnName limitaion auto_increment.
+delete auto_increment:
+    alter table tableName modify columnName columnType limitation.

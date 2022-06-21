@@ -1,0 +1,114 @@
+procedure is like bat in windows, but more powerful
+more like method in java
+----------------------------------------
+advantages:
+    improve reusing of code.
+    simplify process.
+    reduce the times to connect to database server, imporve efficiency.
+----------------------------------------
+syntax to create:
+    create procedure procedureName(parametherList)
+    begin
+        ...sql script;
+        ...sql script;
+    end
+
+# usually create procedure with 'delimiter'
+example with 'delimiter':
+    delimiter $
+    create procedure procedureName(parametherList)
+    begin
+        ...sql script;
+        ...sql script;
+    end $
+----------------------------------------
+syntax to drop:
+    drop procedure procedureName;       # can only be deleted one procedure at each time
+----------------------------------------
+syntax to check procedure:
+    show create procedure procedureName;
+----------------------------------------
+list method:
+    slect name, type
+    from mysql.proc;
+----------------------------------------
+parameter:
+    including 3 parts: mode, name, type
+    example:
+        in studentName varchar(20)
+
+mode:
+    including:
+        in      # as parameter to input
+        out     # as parameter to return
+        inout   # as both
+----------------------------------------
+syntax to call procedure:
+    call procedureName(parametherList);
+
+    # if you have changed delimiter, 
+    # place the specific delimiter instead of ';'
+
+----------------------------------------
+                 examples
+empty parameter:
+    delimiter $$
+    create or replace procedure myp()
+    begin
+        insert into account(name, deposit) values
+        ('Tom',100),
+        ('John',100),
+        ('Lily',100);
+        select * from account;
+    end $$
+    call myp() $$
+    delimiter ;
+use parameter and partial variable:
+    delimiter $
+    create or replace procedure myp(in name varchar(20))
+    begin
+        declare result int default 0;
+        select count(name) into result
+        from account;
+        select if(result > 0, 'exits','not exists');
+    end$
+    delimiter ;
+    call myp('Tom');  
+use multitple parameters:
+    delimiter $$
+    create or replace procedure myp(in username varchar(20), in passwd  varchar(20))
+    begin
+        declare result int defaut 0;
+        select count(name) into result
+        from userlist
+        where userlist.username = username and
+        where userlist.passwd=passwd;
+        select if(result>0,'login successful!','login failed!');
+    end $$
+    delimiter ;
+    call myp('Tom','123456');
+use int and out:
+    delimiter $$
+    create or replace procedure myp(in userName varchar(20), out deposit int, out id int)
+    begin
+        select account.deposit,account.id into deposit, id
+        from account
+        where name = userName;
+
+    end $$
+    delimiter ;
+    call myp('Tom',@deposit,@id);       # you can use undefined user variables directly
+    select @deposit,@id;
+use inout:
+    delimiter $$
+    create or replace procedure myp(inout num1 int, inout num2 int)
+    begin
+        set num1=num1*2;
+        set num2=num2*2;
+    end $$
+    delimiter ;
+    set @num1 :=5;
+    set @num2 :=3;
+    call myp(@num1,@num2);
+    select @num1,@num2;
+

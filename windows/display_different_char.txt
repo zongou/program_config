@@ -1,0 +1,8 @@
+chcp 65001
+	65001	UTF-8
+	936	simplified Chinese
+	950	traditional Chinese
+	437	US/Canada English
+	932	Japanese
+	949	Korean
+	866	Russian

@@ -1,0 +1,84 @@
+取消
+首页
+编程
+手机
+软件
+硬件
+安卓
+苹果
+手游
+教程
+平面
+服务器
+首页 > 脚本专栏 > linux shell > Bash Shell检查文件是否存在
+使用Bash Shell检查文件是否存在的方法
+发布时间：2017-01-06 15:46:16 作者：疯狂的蚂蚁
+大多数情况下，可以使用测试命令来对条件进行测试。比如可以比较字符串、判断文件是否存在及是否可读等等。下面这篇文章就主要介绍了使用Bash Shell检查文件是否存在的方法,需要的朋友可以参考借鉴，下面来一起看看吧。
+前言
+
+大家在工作的时候可能经常会遇到这样的需求，在类Unix系统的Bash环境下，怎样检查文件是否存在呢？既然有需求，当然就有解决的办法了，Shell中的test命令，可以用来检测文件的类型或者比较数值是否相等，该命令也能用来检查文件是否存在。
+
+可以用如下的命令来进行检查：
+
+test -e filename
+[ -e filename ]
+ 
+test -f filename
+[ -f filename ]
+下面的命令，则使用Shell的条件表达式，判断/etc/hosts文件是否存在：
+
+[ -f /etc/hosts ] && echo "Found" || echo "Not found"
+该组合命令会输出以下内容：
+
+Found
+更常见的用法，则是将test命令放置在if..else..fi条件判断的条件表达式，然后在其中写上不同的分支逻辑
+
+#!/bin/bash
+file="/etc/hosts"
+if [ -f "$file" ]
+then
+ echo "$file found."
+else
+ echo "$file not found."
+fi
+检测文件属性的相关操作符
+
+如果文件存在，并且具有相应的属性，如下的操作符都会返回true：
+
+  -b FILE
+    FILE exists and is block special
+  -c FILE
+    FILE exists and is character special
+  -d FILE
+    FILE exists and is a directory
+  -e FILE
+    FILE exists
+  -f FILE
+    FILE exists and is a regular file
+  -g FILE
+    FILE exists and is set-group-ID
+  -G FILE
+    FILE exists and is owned by the effective group ID
+  -h FILE
+    FILE exists and is a symbolic link (same as -L)
+  -k FILE
+    FILE exists and has its sticky bit set
+  -L FILE
+    FILE exists and is a symbolic link (same as -h)
+  -O FILE
+    FILE exists and is owned by the effective user ID
+  -p FILE
+    FILE exists and is a named pipe
+  -r FILE
+    FILE exists and read permission is granted
+  -s FILE
+    FILE exists and has a size greater than zero
+  -S FILE
+    FILE exists and is a socket
+  -t FD file descriptor FD is opened on a terminal
+  -u FILE
+    FILE exists and its set-user-ID bit is set
+  -w FILE
+    FILE exists and write permission is granted
+  -x FILE
+    FILE exists and execute (or search) permission is granted

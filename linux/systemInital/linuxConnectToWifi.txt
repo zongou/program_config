@@ -1,0 +1,15 @@
+check interface:
+	ip addr
+
+create config:
+	wpa_passphrase {wifi name} {passwords} >> wpa_supplicant.conf
+	wpa_supplicant -i {interface} -c {config file} &
+
+start dhcp:
+	dhclient
+
+ping test:
+	ping www.baidu.com
+
+
+	

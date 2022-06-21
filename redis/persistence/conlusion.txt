@@ -1,0 +1,6 @@
+which one?
+
+recommanded by the official, enable both
+if not sensitive to data, single rdb
+single aof is not recommanded, could cause bug
+if only for used as cache, you can disable both

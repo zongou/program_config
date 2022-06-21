@@ -1,0 +1,65 @@
+TCL - Transaction Control Language
+ACID:
+    Atomicity
+    Consistency
+    Isolation
+    Durability
+
+start a new session
+    under going session:
+        insert, update, delete..
+    font session:
+        # check autocommit
+        # show variables like 'autocommit'
+        # autocommit default status is off
+        set autocommit=0 # turn off autocommit
+        start transaction # optional
+
+        insert ...
+        update ...
+        delete ...
+
+        rollback/commit
+
+
+problems of pararell transaction:
+    dirty read: read the updated data that other session have not committed;
+    unrepeatable read: output different data in the same transaction;
+    viual read: read the data that other session inserted but have not committed;
+
+
+                    [dirty read]    [unrepeatable read]     [visual read]
+read uncommitted        yes                 yes                 yes
+read committed          no                  yes                 yes
+repeatable read         no                  no                  yes
+serializable            no                  no                  no
+
+
+
+#check isolation level
+show variables like '%isolation%';
+select @@tx_isolation
+
+#set isolation level
+# need to do that in every session
+# oracle supports READ COMMITED, SERIALIZABLE, by default is READ COMMITED
+# mysql supports READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE
+# by defaut is REPEATABLE READ
+set session transaction isolation level [read uncommitted]
+                                        [read committed]
+                                        [repeatable read]
+                                        [serializable]
+# set global isolation level
+set global transaction isolation level [read committed]
+
+useage of save point:
+
+set autocommit=0;
+start transaction;
+
+delete from account where id = 1;
+save point a;
+
+delete from account where id = 2;
+
+rollback to a; 

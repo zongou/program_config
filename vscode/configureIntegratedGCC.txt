@@ -1,0 +1,14 @@
+@echo off
+set path=%path%;C:\PortablePrograms\VSCode-win32-x64-1.50.1\mingw64\bin
+gcc -g main.c -o main.exe
+
+if exist .\main.c (echo check file succeed) else (echo check file failed)
+if exist .\main.exe (echo succeeded) else (echo failed && notepad create.bat)
+pause
+
+
+"C_Cpp.default.includePath": [
+        "./mingw64/include",
+        "C:/PortablePrograms/VSCode-win32-x64-1.50.1/mingw64/include",
+        "C:/PortablePrograms/VSCode-win32-x64-1.50.1/mingw64/x86_64-w64-mingw32/include"
+    ]

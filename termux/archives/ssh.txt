@@ -1,0 +1,8 @@
+# install
+    apt install openssh
+# start server, default port:8022
+    sshd
+# set up password
+    passwd
+# test connection
+    ssh localhost -p 8022

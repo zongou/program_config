@@ -1,0 +1,32 @@
+# debain install openssh-server
+apt install openssh-server -y
+# permit root login
+vi /etc/ssh/sshd_config
+PertmitRootLogin yes
+# start sshd
+servie sshd restart
+# dont forget to turn internet on
+dhclient
+# check
+ps -e |grep ssh
+
+
+# set box port forward
+# examples:
+    Name    Protocol    Host IP    Host Port   Guest IP     Guest Port
+    ftp       TCP                   2121                        21
+    ssh       TCP                   2222                        22
+    http      TCP                   8080                        80
+    mysql     TCP                   3306       10.0.2.15        3306
+    oracle    TCP                   1521                        1521
+
+
+# cygwin connnet to debin in linux
+ssh root@localhost -p 2222
+
+# if ssh-keygen errors
+remove relative item at ~/.ssh/kown_hosts
+
+# optinal
+# add host to local ssh config
+ssh-keygen -R [Host Ip]

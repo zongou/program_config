@@ -1,0 +1,65 @@
+start from 5.0.1, it supports VIEW
+
+create view:
+    create view viewname
+    as 
+    select ...
+change view:
+    method1:
+        create or replace view viewname
+        as
+        ...
+    method2:
+        alter view viewname
+        as
+        ...
+delete view:
+    drop view viewname;
+    drop view viewname1,viewname2;
+use view:
+    # use view as like table
+    select col_name1, col_name2..
+    from viewname
+list view:
+    show full tables; # including base tables;
+    show full tables in [database_name] where table_type like 'view';
+    select * FROM information_schema.views\G;
+
+    SELECT TABLE_SCHEMA, TABLE_NAME
+    FROM information_schema.tables
+    WHERE TABLE_TYPE LIKE 'VIEW';
+
+show information:
+    desc viewname;
+    show create view viewname; # print scripts
+    show creat view viewname\G; # print scripts
+
+
+update view:
+    # you can update view as table
+    # upate view will change source data too
+    insert into viewname ...
+    update viewname ...
+    delete from viewname ...
+    # cannot update view when in event below:
+    # that means basically all
+    > keywords consist of : group by, distinct, having, union
+    > static view
+    > including sub query
+    > join
+    > from a view that cannot be updated
+    > 'where clause' refers table from 'from clause' 
+
+example:
+    create view my_v1
+    as
+    select studentName, majorName
+    from students s
+    inner join majors m
+    on s.majorId=m.majorId
+    where s.majorId=1;
+
+note!!!
+    the difference of using delete and truncate in transaction,
+    delete supports rollback, but truncate cannot rollback, it commits even in
+    transaction;

@@ -1,0 +1,13 @@
+//infalte method 1
+	LayoutInflater inflater=LayoutInflater.from(MainActivity.this);
+    inflater.inflate(R.layout.cell,null);
+//inflate method 2
+	view=getLayoutInflater().inflate(R.layout.cell,null);
+
+//recycle
+ViewHolder holder
+if(view==null){
+	setTag(holder);
+}else{
+	holder=(ViewHolder)view.getTag();
+}

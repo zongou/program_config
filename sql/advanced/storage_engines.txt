@@ -1,0 +1,15 @@
+# list storage engines
+	show engines;
+	
+# show current and default engines
+	show variables like '%storage_engine%';
+	
+# comparison
+							MyISAM				InnoDB
+main foreign key			x					o
+transaction					x					o
+row, table lock				table lock			row lock
+cache						cache index			cache index and true data
+stroage usage				small				large
+focus						perfomance			transaction
+default installed			o					o

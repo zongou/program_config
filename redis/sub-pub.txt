@@ -1,0 +1,6 @@
+# commands:
+    #session1
+        subscribe channel1 channel2
+    #session2
+        publish channel1 hello
+        publish channel2 world

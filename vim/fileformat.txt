@@ -1,0 +1,5 @@
+check fileformat:
+    :set ff?
+
+change fileformat to dos:
+    :set fileformat=dos

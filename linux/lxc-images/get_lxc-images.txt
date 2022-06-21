@@ -1,0 +1,3 @@
+https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/
+https://mirrors.cloud.tencent.com/lxc-images/images/
+

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=sh /opt/idea-IU-203.7148.57/bin/idea.sh %u
+Icon=/opt/idea-IU-203.7148.57/bin/idea.svg
+StartupNotify=true
+Terminal=false
+Categories=Utility;X-XFCE;
+X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
+X-AppStream-Ignore=True
+Name=IntelliJ IDEA

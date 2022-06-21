@@ -1,0 +1,39 @@
+# termux minimal default config to build, turn off below features
+
+Settings
+    Support utmp file
+    Support writing pidfiles
+    Drop SUID state for most applets
+    
+Coreutils
+    hostid
+    
+Console Utils
+    loadfont
+    setfont
+
+Login/Password Management Utils
+    su
+
+Linux System Utils
+    fsck.minix
+    ipcrm
+    ipcs
+    mkfs.minix
+    swapon
+    swapoff
+
+Miscellanrous Utils
+    conspy
+
+Network Utils
+    Enable IPv6 support
+    ether-wake
+    nslookup
+
+Shells
+    hush
+
+System Logging Utils
+    [all]
+

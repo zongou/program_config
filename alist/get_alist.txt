@@ -1,0 +1,8 @@
+# doc
+https://alist-doc.nn.ci/docs/intro
+
+# alist-web
+https://github.com/Xhofe/alist-web
+
+# alist
+https://github.com/Xhofe/alist

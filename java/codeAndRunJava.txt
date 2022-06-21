@@ -1,0 +1,4 @@
+# code
+javac [classFiles] -d [outputPath]
+# run
+java -cp [classPath] completeClassName

@@ -1,0 +1,46 @@
+// idea configuration
+edit bin/idea.properties
+    idea.config.path=${idea.home.path}/data/config
+    idea.system.path=${idea.home.path}/data/system
+    idea.plugins.path=${idea.home.path}/data/config/plugins
+    idea.log.path=${idea.home.path}/data/log
+    
+// idea plugins
+	remove:
+		android
+        android-gradle-dsl
+        cwm-plugin
+        featuresTrainer
+        Kotlin
+        Ktor
+        space
+        
+        # git integration
+        git4idea
+        
+        github
+        svn4idea
+        vcs-changeReminder
+        vcs-git-featuresTrainer
+        
+	add:
+		idea-eval-resetter
+		MybatisX						## mybatis plus plugin
+		Mybatis Log						## print mysql statements
+		
+	recommends:
+		Alibaba Java Coding Guidelines
+		Indent Rainbow
+		Key Promoter X
+		Translate
+		
+	mybatis log parser recommand:
+		MybatisLogFormat
+		mybatis-log
+		
+// maven configuration
+	replace deafult settings.xml at idea maven plugin dir
+	./plugins/maven/lib/maven3/conf/settings.xml
+	
+		
+		

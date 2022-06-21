@@ -1,0 +1,5 @@
+View view;
+
+view.setVisibility(View.VISIBLE);   //正常显示
+view.setVisibility(View.INVISIBLE); //隐藏参与布局（还占着地方）
+view.setVisibility(View.GONE);      //隐藏不参与布局（不占地方）

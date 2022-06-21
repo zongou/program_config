@@ -1,0 +1,6 @@
+git clone https://github.com/hacdias/webdav/
+
+# change version at cmd/version.go (untracked)
+
+# build
+go build -trimpath -ldflags="-w -s" -v

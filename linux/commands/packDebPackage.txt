@@ -1,0 +1,83 @@
+dir looks like: 
+debian:/usr <> termux:/data/data/com.termux/files/
+
+	MyDeb
+	├── DEBIAN
+	│  └── control
+	├── opt
+	│  └── MyDeb
+	│      ├── heart
+	│      └── heart.desktop
+	└── usr
+	    ├── bin
+	    │  └── heart -> /home/vincent/桌面/MyDeb/opt/MyDeb/heart
+	    └── share
+		├── applications
+		│  └── heart.desktop
+		└── icons
+		    └── heart_98.png
+====================================================================
+		    
+	|----DEBIAN
+
+	       |-------control
+
+	       |-------postinst(postinstallation)
+
+	       |-------postrm(postremove)
+
+	       |-------preinst(preinstallation)
+
+	       |-------prerm(preremove)
+
+	       |-------copyright(版权)
+
+	       |-------changlog(修订记录)
+
+	       |-------conffiles
+
+	|----etc
+
+	|----usr
+
+	|----opt
+
+	|----tmp
+
+	|----boot
+
+	       |-----initrd-vstools.img
+
+'control' file:
+
+Package: code-server
+Version: 3.8.1
+Section: devel
+Priority: optional
+Architecture: aarch64
+Maintainer: Anmol Sethi <hi@nhooyr.io>
+Vendor: Coder
+Installed-Size: 321572
+Homepage: https://github.com/cdr/code-server
+Description: Run VS Code in the browser.
+
+commands:
+
+# extract debFile
+dpkg -X [debFile] fakeroot
+
+# extract 'control' file
+dpkg -e [debFile]
+
+# pack to deb
+$ dpkg -b [fakeroot/] [foo.deb]
+
+# create md5sums
+$ md5sum `find usr -type f` > DEBIAN/md5sums
+or
+$ find usr/ -type f -exec md5sum {} + > DEBIAN/md5sums
+
+references:
+https://blog.csdn.net/wf19930209/article/details/79277091
+https://blog.csdn.net/hebbely/article/details/78521476
+https://www.cnblogs.com/yangdan-hz/p/kathy_deb.html

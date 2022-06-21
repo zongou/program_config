@@ -1,0 +1,25 @@
+Debian 10 root用户自动登录
+
+作者：MichaelShu
+
+时间：2020/02/23 09:09
+
+标签：pam
+
+Debian 10 root用户自动登录：
+
+1. 注释掉 /etc/pam.d/gdm-autologin和/etc/pam.d/gdm-password文件中：
+#auth required pam_succeed_if.so user != root quiet_success
+
+注释掉。 在本行前加#，取消Debian不让root登录的限制。
+
+ 
+
+2. 修改gdm3的设定文件/etc/gdm3/daemon.conf：
+vim /etc/gdm3/daemon.conf
+AutomaticLoginEnable = true
+AutomaticLogin = root    //以root自动登录
+
+
+重启即可。
+

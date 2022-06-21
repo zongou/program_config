@@ -1,0 +1,16 @@
+download mingw64(x86_64-posix-seh)
+	https://sourceforge.net/projects/mingw-w64/files/
+	
+add to system veriables
+
+in vscode
+install extension
+	c/c++
+	c/c++ Compile Run
+	Code Runner
+
+set Code Runner
+	in settings
+	save before running
+	run in terminal
+	

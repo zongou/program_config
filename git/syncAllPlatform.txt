@@ -1,0 +1,7 @@
+# .git/config
+[remote "origin"]
+	url = https://github.com/zongou/notes.git
+	url = https://gitee.com/zongou/notes.git
+	url = https://codeup.aliyun.com/zongou/notes.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+

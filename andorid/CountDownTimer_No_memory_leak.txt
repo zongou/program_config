@@ -1,0 +1,28 @@
+void startTimer(int min,int sec){
+    timer=new CountDownTimer((min*60+sec)*1000,1000) {
+        @Override
+        public void onTick(long l) {
+            tiemrView.setText(formatTime(l));
+        }
+
+        @Override
+        public void onFinish() {
+            ((SpeedNumbers)getActivity()).gotoCheck();
+        }
+    };
+    timer.start();
+}
+void cancelTimer(){
+    if(timer!=null){
+        timer.cancel();
+    }
+}
+public static String formatTime(long l){
+    return (int)(l/1000/60)+":"+(int)(l/1000%60);
+}
+
+@Override
+public void onDestroyView() {
+    super.onDestroyView();
+    cancelTimer();
+}

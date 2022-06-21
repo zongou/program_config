@@ -1,0 +1,35 @@
+./adb.exe shell
+
+
+settings get global captive_portal_mode
+settings put global captive_portal_mode 1
+settings put global captive_portal_https_url https://www.google.cn/generate_204
+
+
+lock again: fastboot.exe oem lock
+
+
+
+
+只隐藏状态栏：
+settings put global policy_control immersive.status=*
+
+只隐藏导航栏：
+settings put global policy_control immersive.navigation=*
+
+
+只隐藏导航栏：
+adb shell settings put global policy_control immersive.navigation=*
+
+隐藏状态栏和导航栏：
+settings put global policy_control immersive.full=*
+
+恢复原始状态：
+settings put global policy_control null*
+
+
+[size=13.7143pt]导航栏完全隐藏，请输入「adb shell wm overscan 0,0,0,-210」
+
+[size=13.7143pt]-210可以自己修改，我调整的是135
+
+[size=13.7143pt]恢复原有效果，    请输入「adb shell wm overscan 0,0,0,0」

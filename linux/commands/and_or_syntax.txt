@@ -1,0 +1,3 @@
+com_a && com_b || { com_c && com_d; } || { com_e && com_f; }
+
+{ com_a && com_b; } || { com_c && com_d; } || { com_e && com_f; }

@@ -1,0 +1,21 @@
+command:						ls env:
+
+Windows Environment Variables List
+Environment Variable				Corresponding Path
+
+%SystemDrive%				C:\ (Operating System drive)
+%SystemRoot%					C:\Windows
+%WINDIR%					C:\Windows
+%HOMEDRIVE%				C:\ (Operating System drive)
+%HOMEPATH%					C:\Users\<Username>
+%USERPROFILE%				C:\Users\<Username>
+%APPDATA%					C:\Users\<Username>\AppData\Roaming
+%ALLUSERSPROFILE%			C:\ProgramData
+%PROGRAMFILES%				C:\Program Files
+%PROGRAMFILES(X86)%			C:\Program Files (x86)
+%PROGRAMDATA%				C:\ProgramData
+%TEMP%						C:\Users\<Username>\AppData\Local\Temp
+%LOCALAPPDATA%				C:\Users\<Username>\AppData\Local
+%PUBLIC%					C:\Users\Public
+%COMMONPROGRAMFILES%		C:\Program Files\Common Files
+%COMMONPROGRAMFILES(x86)%	C:\Program Files (x86)\Common Files

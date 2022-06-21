@@ -1,0 +1,15 @@
+# install packages:
+    p7zip
+    zip
+    unzip
+    tree
+    vim
+    git
+
+# configure home, drivers: nsswitch.conf fstab
+
+# configure vim
+
+# create shortcuts and add to taskbar
+
+# show folder color

@@ -1,0 +1,29 @@
+Install vnc
+
+Apt install tightvncserver
+
+Start vnc
+
+export USER=$(whoami)
+vncserver :1
+
+Stop vnc
+vncserver -kill :1
+rm -rf /tmp/.X*
+
+Run in 1024x768
+vncserver -geometry 1024x768 :1
+
+debian to show Chinese character
+使用apt-get install ttf-arphic-uming xfonts-intl-chinese 或apt-get install ttf-wqy-microhei
+
+安装配置 zhcon
+
+目前 Debian 不能解决字符终端中文显示问题，必须安装 zhcon 工具来解决。详细方法见：字符终端中文显示输入工具zhcon
+
+aptitude install zhcon #安装
+zhcon –utf8 –drv=vga #启动（ctrl + d 退出）
+vim /root/.’bash’rc
+添加 alias zhcon=’zhcon –utf8 –drv=vga’
+
+

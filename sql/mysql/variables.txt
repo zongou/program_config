@@ -1,0 +1,91 @@
+system variables:
+    global variables
+    session variables
+
+custom variables:
+    user variables
+    partial variables
+
+================================
+        system variables
+usage:
+    check variables:
+        show global variables; # check global
+        show session variables; # check session
+        show variales;  # check session too
+
+    check variables optional:
+        show variables like '%char%';
+
+    check a specific variable:
+        select @@global.variableName; # global
+        select @@session.variableName; # session
+        select @@variableName # session;
+
+define a vaiable:
+    method a:
+        set global variableName = value;
+        set session variableName = value;
+        set varialeName = value;
+    method b:
+        set @@global.variableName = value;
+        set @@session.variableName = value;
+        set @@variableName = value;
+note:
+    reboot system will reset all global variables.
+    if you want to keep them, configure the configuration.
+    global variables apply to server, that means working for any session.
+    session variales only apply to current session.
+
+=================================
+        custom variables
+user variables:
+note:
+    user variable only apply to current session.
+    user variable apply to anywhere, that means in/out begin end.
+claim and initialize a variable:
+    set @variableName = value;
+    set @variableName := value;
+    select @variableName := value;
+redefine variable:
+    method a:
+        # same as set and initialize a variable
+    method b:
+        selet columnName into variableName
+        from tableName;
+
+note: type is weak,below will work:
+    set @name='Tom';
+    set @name=100;
+
+-----------------------------------
+partial variable:
+note: partial variable only apply in 'begin end' caluse, and placed at beginning.
+
+claim a partial variable:
+    declare variableName type; # type show match
+    declare variableName default;
+
+define a partial variable:
+    method a:
+        set variableName = valut; # different than above
+        set variableName := vaule; # different than above
+        select @variableName := value;
+    method b:
+        select column into variableName
+        from tableName;
+check partial variables:
+    select variableName; # different than above
+
+
+
+comparison:
+                    applying zone           place to use            syntax
+
+user variable       current session         anywhere in             must contain '@'
+                                            session
+
+partial variable    begin end               only in begin end,
+                                            and placed at beginning     usualy without '@',
+                                                                        need to define type
+

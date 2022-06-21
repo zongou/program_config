@@ -1,0 +1,23 @@
+{
+ "configVer": "1.0",
+ "syncTaskList": [
+  {
+   "name": "program_config",
+   "localFolderPath": "D:\\mirrors\\program_config",
+   "panFolderPath": "/mirrors/program_config",
+   "mode": "upload"
+  },
+  {
+   "name": "program_package",
+   "localFolderPath": "D:\\mirrors\\program_package",
+   "panFolderPath": "/mirrors/program_package",
+   "mode": "upload"
+  },
+  {
+   "name": "sync_test",
+   "localFolderPath": "D:\\mirrors\\sync_test",
+   "panFolderPath": "/mirrors/sync_test",
+   "mode": "sync"
+  }
+ ]
+}

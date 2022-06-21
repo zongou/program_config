@@ -1,0 +1,4 @@
+aof saves steps, costs more storage
+the speed to restore of aof is slower
+if sync every read-write to aof, there will be performance stress
+some bugs, cause restoring failure

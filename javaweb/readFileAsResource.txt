@@ -1,0 +1,7 @@
+Properties pros = new Properties();
+// method1
+//        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("dbcp.properties");
+// method2
+FileInputStream is = new FileInputStream(new File("src/dbcp.properties"));
+pros.load(is);
+source = BasicDataSourceFactory.createDataSource(pros);

@@ -1,0 +1,8 @@
+commentor commands:
+
+singleline:
+	comment: ctrl+q, ctrl+k
+	uncomment: ctrl+shift+k
+muililines:
+	comment: ctrl+shift+q
+	uncomment: ctrl+shift+k

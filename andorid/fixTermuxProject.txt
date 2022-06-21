@@ -1,0 +1,7 @@
+Change to
+
+distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
+in file Gradle-wrapper.properties, and then change to
+
+classpath 'com.android.tools.build:gradle:4.0.1'
+in file build.Gradle (Project)

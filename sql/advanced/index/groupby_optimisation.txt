@@ -1,0 +1,6 @@
+optimisation of group by
+    group by sort first, then group, follow the rule of most left
+    when not able to use index column, increase max_length_for_sort_data and sor_buffer_size
+    'where' has the level higher than 'having', if you can write condition in 'where', dont write it in 'having'
+
+basically the same as order by

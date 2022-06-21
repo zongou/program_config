@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+# Make vim default editor
+editor=$(which vim)
+	update-alternatives --install /usr/bin/editor editor $editor 1
+	update-alternatives --set editor $editor
+	update-alternatives --install /usr/bin/vi vi $editor 1
+	update-alternatives --set vi $editor
+exit 0

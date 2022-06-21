@@ -1,0 +1,11 @@
+//create new dir /res/color or in /drawable, you can change color in dir "color", change icon and color in dir "drawable"
+//make new file for example: /res/color/navi_selected.xml
+//xml file starts with <selector
+//in file
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/colorPrimary" android:state_checked="true"/>
+    <item android:color="@color/colorAccent" android:state_checked="false"/>
+</selector>
+//in layout use color at file name for example: @color/navi_selector
+

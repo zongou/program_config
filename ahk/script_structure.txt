@@ -1,0 +1,34 @@
+; directives
+#SingleInstance, Force
+
+; statements
+str := "hello world"
+
+; main code
+If (str) {
+	MsgBox, %str%
+}
+Return
+
+; #if needs end with #if
+#If WinActive("ahk_class NotePad")
+; any code
+#If
+
+; function declarations
+; function declarations does not has the effect as Return
+myFunc() {
+	global str
+	MsgBox, %str%
+}
+
+; key remap needs Return
+; if previews code is not well closed(Return), will conflict with hotstrings
+^!R
+	Reload
+Return
+
+; lable needs Return
+mylable:
+	; code
+Return

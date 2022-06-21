@@ -1,0 +1,5 @@
+smooth edges of screen fonts
+show window contents while dragging
+show thumbnails instead of icons
+show translucent selection rectangle
+show shadows under windows

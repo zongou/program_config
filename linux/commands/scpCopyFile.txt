@@ -1,0 +1,4 @@
+# copy remoteServer file to localhost
+    scp -P 8022 192.168.x.x:/data/data/com.termux/files/home/busybox ./
+# copy folder
+    scp -P 8022 -r 192.168.x.x:/data/data/com.termux/files/home/myproject ./

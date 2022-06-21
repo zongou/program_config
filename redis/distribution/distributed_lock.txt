@@ -1,0 +1,13 @@
+# setnx
+
+	setnx users 10 			# return 1
+	setnx users 20			# return 0, locked
+	del users				# unlock
+	setnx users 20			# write ok
+	
+	# if the lock has not been unlocked, set expire time to key to unlock automatically
+	# set expire time when key generates:	
+		set key value nx ex seconds
+			set users 10 nx ex 12					# 12 is time to expire
+	
+	

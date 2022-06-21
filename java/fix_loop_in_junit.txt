@@ -1,0 +1,5 @@
+idea:
+    Help-Edit Custom VM Options
+    add to the end:
+        -Deditable.java.test.console=true
+

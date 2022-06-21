@@ -1,0 +1,4 @@
+# delete 
+chmod u+w -R [dir]
+rm -rf [dir]
+

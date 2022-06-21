@@ -1,0 +1,29 @@
+# from powershell:
+Start-Process powershell -verb runAs
+
+# from cmd:
+powershell "Start-Process powershell -verb runAs"
+
+# trustlevel
+runas /trustlevel:0x20000 "busybox64 sh"
+
+rem ############################################################################
+rem run cmd file as admin
+rem add to bat header
+@echo off
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+if '%errorlevel%' NEQ '0' (
+goto UACPrompt
+) else ( goto gotAdmin )
+:UACPrompt
+echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+"%temp%\getadmin.vbs"
+exit /B
+:gotAdmin
+if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
+rem ############################################################################
+
+
+# https://www.jb51.net/article/193692.htm
+# https://blog.csdn.net/CSDN_C2/article/details/108408158

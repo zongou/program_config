@@ -1,0 +1,16 @@
+1 explain
+
+
+----- analyse -----
+
+    1, obervation, runs at least one day, to collect slow sql data
+    2, enable slow sql log, set quevelet value, for example, sql over 5 seconds is slow sql, catch them
+    3, explain + slow sql analyse
+    4, show profile(this is even more detailed than explain)
+    5, Maintance Manager or DBA to optimise database server configuration parameters
+
+== conclusion
+    1, enable slow query and catch
+    2, explain and slow query analyse
+    3, show profile check SQL runing details and life circle
+    4, SQL database configuration parameters optimisation

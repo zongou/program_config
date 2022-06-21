@@ -1,0 +1,32 @@
+install nodejs, and add to path
+use npm or yarn
+
+npm
+	use Alibaba agent:
+		npm config set registry https://registry.npm.taobao.org
+		# testify:
+		npm config get registry
+
+	install via cnpm
+		npm install -g cnpm --registry=https://registry.npm.taobao.org
+		
+		# cnpm useage:
+		cnpm install xxx
+		
+	clean package:
+		npm cache clean --force
+		
+extensions to recommand:
+	Auto Close Tag
+	Auto Complete Tag
+	Auto Rename Tag
+	Bracket Pair Colorizer 2
+	Live Preview
+	Live Server
+	Open
+	REST API
+	REST Client
+	Vetur
+	Vue 3 Snippets
+	
+	

@@ -1,0 +1,3 @@
+# missing icon because of missing dependecies
+# fix:
+apt -f install

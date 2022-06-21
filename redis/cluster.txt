@@ -1,0 +1,104 @@
+old method: proxy:
+	one server to proxy requests, example:
+		
+		requests ->	proxy server	->		goods server
+									->		order server
+									-> 		payment server
+			
+		# and make master/slave, there needs 8 servers
+
+after redis3, it provides cluster feature:
+
+		requests ->	
+					goods server(anyserver)		<->	 order server(anyserver)	
+						<-> payment server(anyserver)
+					
+	# each is connected, requests will flow within them
+	# not certraled, as blockchain
+	
+cluster usage:
+	remove rdb
+	edit config:
+		# 
+		include /myredis.conf
+		pidfile "/var/run/redis/redis_6379.pid"
+		port 6379
+		dbfilename "dump6379.rdb"
+		
+		# cluster config
+		cluster-enable yes
+		cluster-config-file nodes-6379.conf
+		cluster-node-timeout 15000
+		
+	start servers, check cluster, ps -ef |grep redis, show [cluster] at the end
+	redis-cli to create cluster:
+		redis-cli --cluster create --cluster-replicas 1 ip1:port ip2:port ...
+		if fails, del node conf and rdb and try again
+		'localhost' not recognized
+	test:
+		redis-cli -c -p 6381				# login a cluster, with -c argument
+		# any node to connect will do
+		check nodes information:
+			cluster nodes
+			
+# details
+	a cluster must contain at least 3 main nodes
+	better place them on different ip(different machine)
+	police to store data to cluster:
+		redis has 16384 slots, for example, do 'set key1 value1'
+		cluster will use CRC16(key) % 16384 to computer whick key it belongs, and insert to the according node, computer slot in redis: cluster keyslot key
+			node1			node2			node3
+			0-5460			5461-10922		10923-16383
+		test:
+			redis-cli -c -p 6379
+			set k1 v1						# will show redirected
+			
+			# cannot redictly use mset, instead, use {} as group, will hash the group
+			mset name lucy age 20			# show dont hash to the same slot
+			mset name{user} lucy age{user} 20		# working
+# cluster commands:
+		cluster keyslot key		# computer key, return slotindex
+		cluster countkeysinslot	slotindex		# return 1/0, only check this node's slot, will return 0 if not in this node or not inserted
+			cluster countkeysinslot 449
+		cluster getkeysinslot slotindex count
+			cluster getkeysinslot 449 1			# return 'k2'
+
+# main shuts down and back online
+	main will become slave
+		redis-cli -c -p 6379
+			shutdown
+			exit
+		redis-cli -c -p 6389
+			cluster nodes				# sentinel switches the main nodes, slave 6379 is down
+		redis-server /myredis/redis6379.conf
+		redis-cli -c -p 6379
+			cluster nodes				# 6379 connected
+			
+# if one slot on which set of master/slave nodes is down, will server continue to serve?
+	that dependes on the config: cluster-require-full-coverage	yes/no
+		yes: cause the cluster down
+		no: continue to serve, but the slot is unuseable, nor can read/write
+		
+		
+# fail to use cluster in jedis
+	2、使用ruby命令开启集群,要使用公网IP,如下:
+
+	#注意一定不要用127.0.0.1这种本地的局域ip，要用公网ip
+	ruby redis-trib.rb  create --replicas 1 公网IP:7000 公网IP:7001 公网IP:7002 公网IP:7003 公网IP:7004 公网IP:7005
+	上面的：–replicas 1 公网IP:7000 公网IP:7001 … … 都要使用非本地的其他设备在局域网内能访问到的ip,不要使用127.0.0.1。（我的就是这里弄错了，调整这里之后解决了）
+
+	3、如果执行2步骤一直在“Waiting for the cluster to join…”，那肯定是你端口没有开启，不要质疑，这里的端口
+	不是7000-7005，而是17000-17005，因为redis设置集群的端口号是”redis端口+10000“，这个非常重要。
+
+	4、如果以上没有解决，需要从安装步骤上依次排查，或者是你的安装步骤中出现了遗漏，传送：Redis集群（二）集群搭建 ，特别注意第29步前后的执行顺序
+	
+# pros and cons
+	pros:	
+		extends capacity
+		relief the presssure
+		noncentral like bitcoin, easy to configure
+		
+	cons:
+		multiple keys operation not supported, like 'mset'
+		multiple keys transaction not supported, lua scripts not supported
+		showed up relatively late, some company has used other solutions, hard to transfor

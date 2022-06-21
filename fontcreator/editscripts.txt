@@ -1,0 +1,25 @@
+prepare yahei
+    open from install
+    select from first to Chinese character:
+    delete latin but full with symbols
+    change font properties set Characteristics Proportion to monospaced
+    change name to Yahei-Base
+    save project as Yahei-Base.fcp
+
+combine yahei with the other
+    select all from the other and copy
+    insert into YaHei-Base select insert At top and no Ranges # influences Private Use Area
+    paste and ok
+    Edit YaHei-Base Paste Special
+        select all items
+        Outline Standard outlines
+        Metrics Left side bearing and advanced width
+        Code-points Overrule same code-points
+        ok
+
+adjust fonts
+    check Types and try to match them
+
+export to font file
+    File Export Font As
+

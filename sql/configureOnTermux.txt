@@ -1,0 +1,6 @@
+apt install mariadb -y
+
+mysqld &
+
+alter user 'root'@'localhost' identified by '123456';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY '123456' WITH GRANT OPTION;

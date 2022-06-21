@@ -1,0 +1,15 @@
+//rotation changes orientation, splitscreen changes screenlayout
+//AndroidMainfest.xml
+	<activity
+	            android:name=".desciplines.SpeedNumbers"
+	            android:configChanges="orientation|screenLayout">
+	        </activity>
+//Activity.class
+	public void onConfigurationChanged(@NonNull Configuration newConfig) {
+	        super.onConfigurationChanged(newConfig);
+	        if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
+	            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+	        }else if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT){
+	            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+	        }
+	    }

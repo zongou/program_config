@@ -1,0 +1,68 @@
+Bitmaps, string that only stores bits, and supports bit operation
+    # commands:
+        setbit <key> <offset> <value>                        # 
+            setbit users:20210101 1 1
+            setbit users:20210101 6 1
+            setbit users:20210101 9 1
+        getbit <key> <offset>
+            getbit users:20210101 1
+            getbit users:20210101 6
+
+        bitcount <key> [start end]                           # get sum, index start from 0
+            bitcount users:20210101
+
+        bitop <operation> <destkey> <key> [key ...]          # bit operation, and/or/not/xor
+            # examples:
+                visits of 2020-11-04 userid=1,2,5,9
+
+                    setbit unique:users:20201104 1 1
+                    setbit unique:users:20201104 2 1
+                    setbit unique:users:20201104 5 1
+                    setbit unique:users:20201104 9 1
+
+                visits of 2020-11-03 userid=0,1,4,9
+                    
+                    setbit unique:users:20201103 0 1
+                    setbit unique:users:20201103 1 1
+                    setbit unique:users:20201103 4 1
+                    setbit unique:users:20201103 9 1
+
+                # get users that visited both days, intersection
+                    bitop and unique:users:and:20211104_03 unique:users:20201103 unique:users:20201104
+
+                # get users has visited (in any days), union
+                    bitop or ...
+                #
+
+    # characteristic:
+        compared with set:
+            data type       storage by every user   total users     total storage
+            set type        64bit                   50,000,000      64*50,000,000=400MB         # when size is large
+            Bitmaps         1bit                    100,000,000     1*100,000,000=12.5MB
+
+            set type        64bit                   100,000         64*100,000=800KB            # when size is small
+            Bitmaps         1bit                    100,000,000     1*100,000,000=12.5MB           
+
+HyperLogLog, base numbers, as distinct count in mysql, but does not store member
+    PFADD <key> <element> [element ...]                         # add base member, return 1/0
+        pfadd program java c++ mysql
+        pfadd k1 a b java
+    PFCOUNT key [key ...]                                       # return base members count
+        pfcount program
+        pfcount k1
+        pfcount program k1
+    PFMERGE destkey sourcekey [sourcekey ...]                   # merge keys to a new key, return OK
+        pfmerge k100 program k1
+
+Geospatial, location data operation
+    GEOADD key longitude latitude member [longitude latitude member ...]        # add geospatial member, return added count
+        GEOADD china:city 121.47 31.23 shanghai
+        GEOADD china:city 106.50 29.53 chongqing 114.05 22.52 shenzhen 116.38 39.90 beijing
+        # available longtitude -180 to 180, latitude -85.05112878 to 85.05112878
+    GEOPOS key member [member ...]                                              # get geospatial data
+        GEOPOS china:city beijing
+    GEODIST key member1 member2 [unit]                                          # return straight distance, unit:[m,km,mi,ft], mi english li, ft english ruler, default is m
+        GEODIST china:city beijing shanghai km
+    GEORADIUS key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count] [ASC|DESC] [STORE key] [
+                                                                                # show members within the radious, as wechat nearby strangers
+        GEORADIUS china:city 110 30 1000 km

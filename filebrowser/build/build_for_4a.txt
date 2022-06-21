@@ -1,0 +1,21 @@
+pkg i git golang nodejs 
+git clone https://github.com/filebrowser/filebrowser
+cd filebrowser
+
+# build frontend
+cd frontend
+
+# fix the 'ERR_OSSL_EVP_UNSUPPORTED' error
+export NODE_OPTIONS=--openssl-legacy-provider
+
+npm install && npm run build
+
+# build backend for mipsle
+cd ..
+GOOS=linux GOARCH=mipsle go build
+
+
+## extra
+## check tag: git tag
+## show tag info and commit id: git show <tag>
+## go back to tag: git reset --hard <commit-id>

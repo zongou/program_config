@@ -1,0 +1,12 @@
+General:
+	x	Single instance mode
+	Appearance:
+		o	Show buttons
+	Features:
+		x	Process 'start'
+		
+Startup:
+	Environment:
+		set PORTABLE_PROGRAMS=%ConEmuWorkDrive%\portable_programs
+ 
+		set PATH=%PATH%;%PORTABLE_PROGRAMS%\

@@ -1,0 +1,883 @@
+
+Bash条件判断
+bash编程之：条件判断，判定后续操作的前提条件是否满足，
+
+bash编程之: 条件判断常用类型：
+
+  整数测试：比较两个整数谁大谁小，是否相等；
+
+    二元测试：
+
+      num1 操作符 num2
+
+      -eq: 等于
+
+      -ne: 不等于
+
+      -le：小于等于
+
+      -ge：大于等于 
+
+      -lt：小于
+
+      -gt: 大于
+
+  字符测试：比较两个字符串是否相等；
+
+    双目录
+
+           >：          大于
+
+           <：          小于
+
+           ==：             等于，等值比较
+
+           =~：             左侧是字符串，右侧是一个模式，判定左侧的字符串能否被右侧的模式所匹配；通常只[[]]中使用，模式中可以使用行首、行尾锚定符；但模式不要加引导
+
+           !=, <>：     不等于
+
+    单目录
+
+           -n 字符串：  字符串是否不空，不空为真，空则为假
+
+           -z 字符串：  字符串是否为空，空则为真，不空则假
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+[root@demo scripts]# stringA="root"
+[root@demo scripts]# stringB="hello"
+[root@demo scripts]# [ "$stringA" == "$stringB" ]
+[root@demo scripts]# echo $?
+1
+[root@demo scripts]# stringB="root"
+[root@demo scripts]# [ "$stringA" == "$stringB" ]
+[root@demo scripts]# echo $?
+0
+[root@demo scripts]# userName=root
+[root@demo scripts]# [[ `grep "^$userName\>" /etc/passwd | cut -d: -f7` =~ sh$ ]]
+[root@demo scripts]# echo $?
+0
+[root@demo scripts]# userName=bin
+[root@demo scripts]# [[ `grep "^$userName\>" /etc/passwd | cut -d: -f7` =~ sh$ ]]
+[root@demo scripts]# echo $?
+1
+[root@demo scripts]# [ -n userName ]
+[root@demo scripts]# echo $?
+0
+  文件测试：测试某个文件是否具有读权限、写权限、执行权限等；
+
+    单目测试：
+
+      -e file ：         测试文件是否存在
+
+      -a file ：         测试文件是否存在
+
+      -f file ：         测试是否为普通文件
+
+      -d     ：            测试是否为目录文件
+
+      -b somefile ：     测试文件是否存在并且是否为一个块设备文件
+
+      -c somefile ：     测试文件是否存在并且是否为一个字符设备文件
+
+      -h|-L somefile ：     测试文件是否存在并且是否为符号链接文件
+
+      -p somefile ：     测试文件是否存在并且是否为管道文件：
+
+      -S somefile ：     测试文件是否存在并且是否为套接字文件：
+
+      -r somefile：      测试其有效用户是否对此文件有读取权限
+
+      -w somefile：      测试其有效用户是否对此文件有写权限
+
+      -x somefile：      测试其有效用户是否对此文件有执行权限
+
+      -s somefile：      测试文件是否存在并且不空
+
+     双目测试：
+
+      file1 -nt file2 ： 测试file1是否比file2更 新一些
+
+      file1 -ot file2 ： 测试file1是否比file2更 老一些
+
+      file1 -ef file2 :  测试file1和file2是否引用同一个文件   
+
+bash编程之：逻辑运算：
+
+    与运算：
+
+      真 && 真 = 真 
+
+      真 && 假 = 假
+
+      假 && 真 = 假
+
+      假 && 假 = 假
+
+    或运算：
+
+      真 || 真 = 真 
+
+      真 || 假 = 真
+
+      假 || 真 = 真
+
+      假 || 假 = 假
+
+    非运算：
+
+      ！真 = 假
+
+      ！假 = 真
+
+bash编程之：组合条件测试
+
+    与：条件1 &&条件2
+
+      条件1为假，则最终结果一定为假，否则，条件2不予执行
+
+      条件1为真，则最终条件结果决于后面条件，因此，条件2必须执行
+
+    或：条件1 ||条件2
+
+      条件1为真，则最终结果一定为真，否则，条件2不予执行
+
+      条件1为假，则最终条件结果决于后面条件，因此，条件2必须执行
+
+    非: 
+
+      与的优先级大于或，或的优先级大于非
+
+bash编程之：条件测试方法
+
+     test 表达式
+
+     [ 测试表达式 ]
+
+     [[ 测试表达式 ]]
+
+bash编程之：if条件判断使用：
+
+    单分支：
+
+       if 条件; then
+
+          分支1;
+
+       fi
+
+    双分支：
+
+        if 条件; then
+
+         分支1;
+
+        else 
+
+         分支2;
+
+        fi
+
+    多分支：
+
+        if 条件; then
+
+          分支1;
+
+        elif 条件2; then 
+
+          分支2;
+
+        elif 条件3; then 
+
+          分支3;
+
+           ...
+
+        else 
+
+          分支n;
+
+        fi
+
+bash编程之：命令引用：
+
+  1.引用命令的执行结果：使用`COMMAND`或$(COMMAND)
+
+  2.引用命令执行是否成功的状态结果：一定是直接执行命令，此时需要执行结果重定向至/dev/null
+
+bash编程之：脚本自动退出
+
+  exit [n] 
+
+        0表示成功（Zero - Success）
+
+        非0表示失败（Non-Zero  - Failure）
+
+        2表示用法不当（Incorrect Usage）
+
+        127表示命令没有找到（Command Not Found）
+
+        126表示不是可执行的
+
+ 
+
+练习：
+
+ 
+
+  1.写一脚本，实现如下功能；
+
+   1、让用户通过键盘输入一个用户名
+
+   2、如果用户存在，就显示其用户名和UID；
+
+   3、否则，就显示用户不存在；
+
+1
+2
+3
+4
+5
+6
+7
+8
+#!/bin/bash
+#
+read -p "please input userName: " userName
+if grep "^$userName\>" /etc/passwd & > /dev/null;then
+  echo "$userName :`id -u $userName`";
+else
+   echo "$userName is not OK !!";
+fi
+  2.写一脚本，实现如下功能；
+
+  1、让用户通过键盘输入一个用户名，如果用户不存在就退出；
+
+  2、如果用户的UID大于等于500，就说明它是普通用户；
+
+  3、否则，就说明这是管理员或系统用户；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+#!/bin/bash
+#
+read -p "please input userName: " userName
+if ! grep "^$userName\>" /etc/passwd & > /dev/null;then
+  echo "Can you speak Chinese";
+  exit 62
+fi
+  i=`id -u $userName`;
+if [ $i -ge 500 ];then
+  echo "The $userName is putong user";
+else
+  echo "The $userName is root user";
+fi
+  3.写一脚本，实现如下功能；
+
+  1、让用户通过键盘输入一个用户名，如果用户不存在就退出；
+
+  2、如果其UID等于其GID，就说它是个"good guy"
+
+  3、否则，就说它是个“bad guy”
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+#!/bin/bash
+#
+read -p "please input userName: " userName
+if ! grep "^$userName\>" /etc/passwd & > /dev/null;then
+ echo "Can you speak Chinese";
+exit 62
+fi
+i=`id -u $userName`
+g=`id -g $userName`
+if [ $i -eq $g ];then
+ echo "$userName is good guy";
+else
+ echo "$userName is bad guy";
+fi
+4.扩展题3：判断当前系统的所有用户是goodguy 还是bad guy；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+#!/bin/bash
+#
+for userName in `cut -d：-f1 /etc/passwd`；do
+  i=`id -u $userName`
+  g=`id -g $userName`
+  if [ $i -eq $g ];then
+    echo "$userName is good guy";
+  else
+    echo "$userName is bad guy";
+  fi
+done
+ 5.写一个脚本，实现如下功能；
+
+  1、添加10个用户stu1-stu10；但要先判断用户是否存在；
+
+  2、如果存在，就用红色显示其已经存大在
+
+  3、否则，就添加此用户；并绿色显示；
+
+  4、最后显示一共添加了几个用户；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+#!/bin/bash
+#
+for i in {1..10};do
+  if grep "^stu$i\>" /etc/passwd &> /dev/null;then
+    echo -e "\033[31mstu$i\033[0m is sunflly"
+  else
+    useradd stu$i&&echo -e "useradd \033[32mstu$i\033[0m is suefully"
+  fi
+done
+echo "Add $UserCount users."
+6.200以为所有3的整数倍正整数的和；
+
+1
+2
+3
+4
+5
+6
+7
+8
+#! /bin/bash
+#
+declare -i sum=0
+for i in {1..200};do
+  if [ $i%3 = 0 ];then
+    let sum=$sum+$i;
+  fi
+done
+7.让用户指定一个文件，判定：如果文件有空白行，就显示空白行数；否则，就说明无空白行；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+#! /bin/bash
+#
+read -p "Enter a file path: " filename
+if grep "^&" $filename &> /dev/null; then
+  linesCount=`grep "^&" $filename | wc -l`
+  echo "$filename has $linesCount space lines."
+else
+  echo "$filename hace no space lines."
+fi
+8.判定两个数孰大孰小，整数是通过命令行参数传递而来；
+
+1
+2
+3
+4
+5
+6
+7
+#! /bin/bash
+#
+if [ $1 -gt $2 ]; then
+  echo "The max num is $1."
+else
+  echo "The max num is $2."
+fi
+9.判定所有用户是否拥有可登录shell；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+#! /bin/bash
+#
+for userName in `cut -d: -f1 /etc/passwd`; do
+    if [[ `grep "^$userName\>" /etc/passwd | cut -d: -f7` =~ sh$ ]]; then
+        echo "login user: $userName"
+    else
+        echo "nologin user: $userName"
+    fi
+done
+10.写一脚本，实现如下功能：
+
+    1、让用户交互式输入一个用户名，先判断用户是否存在；不存在则以7退出
+
+    2、判断用户的shell是否为/bin/bash；如果是，则显示为"bash user."，退出码为0,否则显示为"Not bash user.",退出码为1。
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+#! /bin/bash
+#
+read -t 3 -p "Enter Input UserName " userName
+  
+if ! id $userName &> /dev/null; then
+    echo "No such user."
+    exit 7
+fi
+  
+userShell=`grep "^$userName\>" /etc/passwd | cut -d: -f7`
+  
+if [[ "$userShell" == "/bin/bash" ]]; then
+    echo "bash user."
+    returnValue=0
+else
+    echo "Not bash user."
+    returnValue=1
+fi
+  
+exit $returnValue
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+#! /bin/bash
+#
+read -t 5 -p "Enter Input UserName: " UserName
+if [[ $UserName != `grep "^$UserName"   /tmp/passwd | cut -d: -f1` ]]; then
+    echo "No Such $UserName."
+    exit 7
+elif [[ `grep "^$UserName"  /tmp/passwd | cut -d: -f7` =~ sh$ ]]; then
+     
+        echo "$UserName is bash user."
+        exit 0
+else
+        echo "$UserName Not bash user."
+        exit 1
+fi
+11.写一个脚本，实现如下功能；
+
+      1、显示如下菜单：
+
+           CPU) show cpu info;
+
+           men) show memory info;
+
+           quit) quit
+
+           Enter your option:
+
+      2、如果用户选择CPU，则显示文件/proc/cpuinfo的信息；
+
+      3、如果用户选择mem，则显示文件/proc/meminfo的信息；
+
+      4、如果用户选择quit，则退出，且退出码为5；
+
+      5、如果用户键入其它字符，则显示未知选项，请重新执行脚本；退出码为6
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+#! /bin/bash
+#
+echo "CPU)Show Cpu Info: "
+echo "Men)Show Memory info: "　
+echo "quit)quit "
+  
+read -t 5 -p "Enter your Chooise Option：" Chooise
+  
+if [[ $Chooise == CPU ]]; then
+        echo `cat /proc/cpuinfo`
+elif [[ $Chooise == Men ]]; then
+        echo `cat /proc/meninfo`
+else
+        exit 6
+fi
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+#! /bin/bash
+#
+cat <<EOF
+cpu) print cpu infomation
+men) print memory infomation
+quit) Quit
+EOF
+      
+returnValue=0
+  
+read -t 3 -p "Enter your option " userOption
+userOption=`echo $userOption | tr 'a-z' 'A-Z'`
+  
+if [[ $userOption == "CPU" ]]; then
+    cat /proc/cpuinfo
+elif [[ $userOption == "MEM" ]]; then
+    cat /proc/meminfo
+elif [[ $userOptin == "QUIT" ]]; then
+    echo "Quit"
+    returnValue=6
+else
+    echo "Unkown Option"
+    returnValue=7
+fi
+  
+exit $returnValue
+  12.写一个脚本，实现如下功能；
+
+    1.分别复制/var/log/下的文件至/tmp/log目录中；
+
+    2.复制目录时，使用cp -r；
+
+    3.复制文件时，使用cp；
+
+    4.复制链接文件时，使用cp -d；
+
+    5.余下的类型，使用cp -a；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+#! /bin/bash
+#
+targetDir='/tmp/logs'
+ 
+[ -e $targetDir ] || mkdir $targetDir
+for fileName in /var/log/*; do
+  if [ -d $fileName ]; then
+    copyCommand='cp -r'
+  elif [ -f $fileName ]; then
+    copyCommand='cp'
+  elif [ -h $fileName ]; then
+    copyCommand='cp -d'
+  else
+    copuCommand='cp -a'
+  fi
+ 
+  $copyCommand $fileName $targetDir
+done
+  13.写一个脚本，实现如下功能；
+
+    1.其使用形式如下所示；
+
+      script.sh{start|stop|restart|status}
+
+    2.如果参数为空，则显示帮助信息，并退出脚本;
+
+    3.如果参数为start，则创建空文件/tmp/scipt,并显示starting script successfully;mp
+
+    4.如果参数为stop，则删除文件/tmp/script，并显示stop script succesfully；
+
+    5.如果参数为restart，则删除文件/tmp/script并重新创建，而后显示Rstart script successfully;
+
+    6.如果参数为status，那么
+
+      如果文件/tmp/script存在，则显示Script is running...，否则，则显示Script is stoped；
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+#! /bin/bash
+#
+Dir=/tmp/script
+ 
+if ! [[ $1 =~ [startstoprestartstatus] ]]; then
+  echo "script.sh{start|stop|restart|status"
+elif [ $1 == start ]; then
+  mkdir $Dir && echo "Starting Script Successfully.."
+elif [ $1 == stop ]; then
+  rm -rf $Dir && echo "Stop Script Successfully..."
+elif [ $1 == restart ]; then
+  rm -rf $Dir && mkdir $Dir &&  echo "Stop Script Successfully..."
+elif [ $1 == status ]; then
+  if [ -e $Dir ]; then
+    echo "Script is running..."
+  else
+    echo "Script is stoped..."
+  fi
+fi
+  14.写一个脚本，实现如下功能；
+
+    1.使用形式如下：userinfo.sh -u username [-v {1|2}]
+
+    2.-u选项用于指定用户，而后脚本显示用户UID和GID;
+
+    3.如果同时使用了-v选项；
+
+      -v后面的值如果是1，则额外显示用户的家目录路径；
+
+      -v后面的值如果是2，则额外显示用户的家目录路径和shell;
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+#! /bin/bash
+#
+ 
+[ $# -lt 2 ] && "Too less argements,quit..." && exit 5
+ 
+if [[ "$1" == "-u" ]]; then
+  userName="$2"
+  shift 2
+fi
+ 
+if [ $# -ge 2 ] && [ "$1" == "-v" ]; then
+  verFlag=$2
+fi
+ 
+# echo $userName &verFlag
+ 
+verFlag=${verFlag:-0}
+if [ -n $verFlag ]; then
+  if ! [[ $verFlag =~ [012] ]]; then
+    echo "Wrong Parameter."
+    echo "Usage: `basename $0` -u userName -v {1|2}"
+    exit 4
+  fi
+fi
+ 
+if [ $verFlag -eq 1 ]; then
+  grep "^$userName" /etc/passwd | cut -d: -f1,3,4,6
+elif [ $verFlag -eq 2 ]; then
+  grep "^$userName" /etc/passwd | cut -d: -f1,3,4,6,7
+else
+  grep "^$userName" /etc/passwd | cut -d: -f1,3,4
+fi
+ 
+
+来自为知笔记(Wiz)
+
+
+
+分类: Linux
+好文要顶 关注我 收藏该文    
+Saviorsyang
+关注 - 0
+粉丝 - 1
++加关注
+0 0
+« 上一篇： grep命令学习 
+» 下一篇： Linux软raid创建
+posted @ 2016-08-03 20:59  Saviorsyang  阅读(2494)  评论(0)  编辑  收藏
+刷新评论刷新页面返回顶部
+登录后才能发表评论，立即 登录 或 注册， 访问 网站首页
+【推荐】大型组态、工控、仿真、CADGIS 50万行VC++源码免费下载
+【推荐】AWS携手博客园为开发者送福利，新用户立享12个月免费套餐
+【推荐】第一个 NoSQL 数据库，在大规模和一致性之间找到了平衡
+【推荐】Agora 教程 | 如何在 Android 中创建一个 AR 远程协助APP
+【推荐】万物互联的时代，由你的代码定义，创建HarmonyOS应用
+最新 IT 新闻: 
+· 取消外卖差评？本末倒置绝不可取 
+· 打工人的春节：就地过年还要996？ 
+· 投资收益100倍的Clubhouse，真能稳赚不赔吗？ 
+· 破产重组，将是瑞幸重生的机会？ 
+· 腾讯防疫健康码周年报告：累计用户超10亿 访问量超650亿 
+» 更多新闻...
+<	2021年2月	>
+日	一	二	三	四	五	六
+31	1	2	3	4	5	6
+7	8	9	10	11	12	13
+14	15	16	17	18	19	20
+21	22	23	24	25	26	27
+28	1	2	3	4	5	6
+7	8	9	10	11	12	13
+随笔分类 (23)
+Container(4)
+Linux(10)
+Python(6)
+Windows(2)
+杂项(1)
+随笔档案 (24)
+2018年9月(6)
+2017年2月(1)
+2017年1月(4)
+2016年12月(3)
+2016年8月(6)
+2016年7月(4)
+阅读排行榜
+1. WingIDE中文乱码问题解决方法(3147)
+2. bash while/until循环学习(2718)
+3. Bash条件判断(2494)
+4. Linux设计准则(849)
+5. Linux破解root密码(790)
+Copyright © 2021 Saviorsyang 
+Powered by .NET 5.0 on Kubernetes

@@ -1,0 +1,44 @@
+# cache panetrating, abnormal requests request database directly, cache not working
+	characteristics:
+		1， web server press increase abnormally
+		2， hit rate drops
+		3， keep requesting the database， database pressure increase util database is down
+		
+	redis keeps working well but cache is not working as it should and keep requesting the databases
+	
+	cause:
+		redis cannot find the match data
+		too many abnormal url requesting
+	
+	solutions:
+		1, cache null result of a request no matter data exists or not, set expire time short, not longer than 5 mins
+		2, set whitelist to visit,	id as bitmaps offset, compare with id in bitmaps and filtering
+		3, use Bloom Filter, related to bitmaps
+		4, real time monitoring, when hitting rate drops, filter guests to requests to set blacklist to limit service
+		
+# cache break through, tons of normal requests to the key just expired
+	characteristics:
+		1, database requesting pressure increasing instantly
+		2, there is not lots of key expired in redis
+		3, redis working well
+		
+	cause:
+		some key is expired, and lots of requests are requesting this key
+		
+	solutions:
+		1, preset hot data save into redis, extends the expire time
+		2, adjust hot data in real time, adjust expire time in real time
+		3, use lock
+			1, when cache expires(return null), not directly load db
+			2, use operation with success(for example: setnx)
+
+# cache avalanche, when lots of keys expires at the same time(like advanced cache break through), requests database and cause server down
+	cause:
+		in short times, requesting lots of keys expires at the same time
+		
+	solution:
+		1, multiple architectures of cache
+			nginx cache + redis cache + other cache( e.g.: encache...)
+		2, use lock or queue, not suitable for hight multi async
+		3, record if data is expired(preset), if so then trigger another thread to update key cache
+		4, sperate the time to expire, like 5 min + a random value from 1-5 mins

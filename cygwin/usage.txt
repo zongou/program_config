@@ -1,0 +1,63 @@
+# cmd to start Cygwin:
+	@echo off
+	setlocal enableextensions
+	set TERM=
+	cd /d "%~dp0bin" && .\bash --login -i
+
+# cmd to start mintty:	
+	@echo off
+	setlocal enableextensions
+	set TERM=
+	cd /d "%~dp0bin" && .\mintty.exe -i /Cygwin-Terminal.ico -
+	
+# to mount drivers with /etc/fstab, content:
+	# For a description of the file format, see the Users Guide
+	# https://cygwin.com/cygwin-ug-net/using.html#mount-table
+
+	# DO NOT REMOVE NEXT LINE. It remove cygdrive prefix from path
+	none / cygdrive binary,posix=0,noacl,user 0 0
+	none /tmp usertemp binary,posix=0,noacl 0 0
+
+default:
+	# /etc/fstab
+	#
+	#    This file is read once by the first process in a Cygwin process tree.
+	#    To pick up changes, restart all Cygwin processes.  For a description
+	#    see https://cygwin.com/cygwin-ug-net/using.html#mount-table
+
+	# This is default anyway:
+	none /cygdrive cygdrive binary,posix=0,user 0 0
+
+# to switch home with /etc/nsswitch.conf, content:
+	# Begin /etc/nsswitch.conf
+
+	passwd: files db
+	group: files # db
+
+	db_enum: cache builtin
+
+	db_home: env windows cygwin desc
+	db_shell: env windows # cygwin desc
+	db_gecos: env # cygwin desc
+
+	# End /etc/nsswitch.conf
+
+default:
+	# /etc/nsswitch.conf
+	#
+	#    This file is read once by the first process in a Cygwin process tree.
+	#    To pick up changes, restart all Cygwin processes.  For a description
+	#    see https://cygwin.com/cygwin-ug-net/ntsec.html#ntsec-mapping-nsswitch
+	#
+	# Defaults:
+	# passwd:   files db
+	# group:    files db
+	# db_enum:  cache builtin
+	# db_home:  /home/%U
+	# db_shell: /bin/bash
+	# db_gecos: <empty>
+
+
+
+ref:
+	https://stackoverflow.com/questions/1494658/how-can-i-change-my-cygwin-home-folder-after-installation
